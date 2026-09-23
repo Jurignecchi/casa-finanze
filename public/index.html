@@ -27,22 +27,22 @@
                         <i data-lucide="layout-grid" class="w-5 h-5"></i>
                     </div>
                     <div class="text-left">
-                        <h1 class="font-bold text-lg text-slate-900 leading-none">Home & Finance</h1>
-                        <p class="text-xs text-slate-500">Sincronizzato & SQLite</p>
+                        <h1 class="font-bold text-base sm:text-lg text-slate-900 leading-none">Home & Finance</h1>
+                        <p class="text-[10px] sm:text-xs text-slate-500">Locale & Sincronizzato</p>
                     </div>
                 </button>
 
                 <!-- Navigation Bar -->
                 <nav class="flex space-x-1 sm:space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
-                    <button id="nav-btn-hub" onclick="showView('hub')" class="flex items-center space-x-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
+                    <button id="nav-btn-hub" onclick="showView('hub')" class="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
                         <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                        <span>Inizio</span>
+                        <span class="hidden xs:inline">Inizio</span>
                     </button>
-                    <button id="nav-btn-casa" onclick="showView('casa')" class="flex items-center space-x-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
+                    <button id="nav-btn-casa" onclick="showView('casa')" class="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
                         <i data-lucide="home" class="w-4 h-4"></i>
-                        <span>Gestione Casa</span>
+                        <span class="hidden sm:inline">Gestione Casa</span>
                     </button>
-                    <button id="nav-btn-finanze" onclick="showView('finanze')" class="flex items-center space-x-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
+                    <button id="nav-btn-finanze" onclick="showView('finanze')" class="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
                         <i data-lucide="trending-up" class="w-4 h-4"></i>
                         <span>Finanze</span>
                     </button>
@@ -61,7 +61,7 @@
                     Pannello Principale
                 </span>
                 <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Cosa vuoi gestire?</h2>
-                <p class="text-slate-500 text-sm">I dati sono salvati sul server e sincronizzati in tempo reale.</p>
+                <p class="text-slate-500 text-sm">I dati vengono salvati automaticamente nella memoria del browser.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-2">
@@ -84,7 +84,7 @@
                             <i data-lucide="trending-up" class="w-7 h-7"></i>
                         </div>
                         <h3 class="text-2xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">Finanze</h3>
-                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">Entrate, uscite, spese fisse ricorrenti e portafoglio investimenti.</p>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">Entrate, uscite, spese fisse ricorrenti e panoramica contabile.</p>
                     </div>
                     <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between font-semibold text-sm text-emerald-600">
                         <span>Accedi</span><i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -328,7 +328,7 @@
     </div>
 
     <script>
-        let inventory = [], shoppingList = [], maintenance = [], tasks = [], transactions = [], fixedExpenses = [], investmentHistory = [];
+        let inventory = [], shoppingList = [], maintenance = [], tasks = [], transactions = [], fixedExpenses = [];
         let compareChartInstance = null;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -336,25 +336,28 @@
             ['tx-date', 'task-date', 'maint-date'].forEach(id => {
                 if(document.getElementById(id)) document.getElementById(id).value = today;
             });
-            fetchAllData();
+            loadFromLocalStorage();
+            renderAll();
             lucide.createIcons();
         });
 
-        async function fetchAllData() {
-            try {
-                const [invRes, shopRes, maintRes, taskRes, txRes, fixRes, invHistRes] = await Promise.all([
-                    fetch('/api/inventory').then(r => r.json()),
-                    fetch('/api/shopping').then(r => r.json()),
-                    fetch('/api/maintenance').then(r => r.json()),
-                    fetch('/api/tasks').then(r => r.json()),
-                    fetch('/api/transactions').then(r => r.json()),
-                    fetch('/api/fixed_expenses').then(r => r.json()),
-                    fetch('/api/investments').then(r => r.json())
-                ]);
-                inventory = invRes; shoppingList = shopRes; maintenance = maintRes;
-                tasks = taskRes; transactions = txRes; fixedExpenses = fixRes; investmentHistory = invHistRes;
-                renderAll();
-            } catch (err) { console.error("Errore:", err); }
+        // Gestione della memoria locale (LocalStorage)
+        function saveToLocalStorage() {
+            localStorage.setItem('hf_inventory', JSON.stringify(inventory));
+            localStorage.setItem('hf_shopping', JSON.stringify(shoppingList));
+            localStorage.setItem('hf_maintenance', JSON.stringify(maintenance));
+            localStorage.setItem('hf_tasks', JSON.stringify(tasks));
+            localStorage.setItem('hf_transactions', JSON.stringify(transactions));
+            localStorage.setItem('hf_fixed', JSON.stringify(fixedExpenses));
+        }
+
+        function loadFromLocalStorage() {
+            inventory = JSON.parse(localStorage.getItem('hf_inventory')) || [];
+            shoppingList = JSON.parse(localStorage.getItem('hf_shopping')) || [];
+            maintenance = JSON.parse(localStorage.getItem('hf_maintenance')) || [];
+            tasks = JSON.parse(localStorage.getItem('hf_tasks')) || [];
+            transactions = JSON.parse(localStorage.getItem('hf_transactions')) || [];
+            fixedExpenses = JSON.parse(localStorage.getItem('hf_fixed')) || [];
         }
 
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
@@ -368,24 +371,30 @@
         }
 
         function renderAll() {
-            renderInventory(); renderShoppingList(); renderMaintenance();
-            renderTasks(); renderTransactions(); renderFixedExpenses();
+            renderInventory(); 
+            renderShoppingList(); 
+            renderMaintenance();
+            renderTasks(); 
+            renderTransactions(); 
+            renderFixedExpenses();
+            updateFinancialStats();
         }
 
-        async function renderInventory() {
+        // --- INVENTARIO ---
+        function renderInventory() {
             const list = document.getElementById('inventory-list');
             list.innerHTML = '';
             const query = document.getElementById('inventory-search')?.value.toLowerCase().trim() || '';
             inventory.filter(i => i.name.toLowerCase().includes(query)).forEach(item => {
                 const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border';
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
                 el.innerHTML = `
-                    <div><p class="text-sm font-semibold">${item.name}</p><span class="text-[10px] text-slate-400">${item.category || ''}</span></div>
+                    <div><p class="font-semibold">${item.name}</p><span class="text-[10px] text-slate-400">${item.category || ''}</span></div>
                     <div class="flex items-center space-x-2">
-                        <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-white border rounded">-</button>
-                        <span class="w-6 text-center text-xs font-bold">${item.qty}</span>
-                        <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-indigo-600 text-white rounded">+</button>
-                        <button onclick="deleteItem('inventory', ${item.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-white border rounded font-bold">-</button>
+                        <span class="w-6 text-center font-bold">${item.qty}</span>
+                        <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-indigo-600 text-white rounded font-bold">+</button>
+                        <button onclick="deleteItem('inventory', ${item.id})" class="text-slate-300 hover:text-rose-500 ml-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                     </div>`;
                 list.appendChild(el);
             });
@@ -393,37 +402,40 @@
             lucide.createIcons();
         }
 
-        async function changeQty(id, delta) {
+        function changeQty(id, delta) {
             const item = inventory.find(i => i.id === id);
             if (item) {
                 item.qty = Math.max(0, item.qty + delta);
-                await fetch(`/api/inventory/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(item) });
+                saveToLocalStorage();
                 renderInventory();
             }
         }
 
-        async function handleInventorySubmit(e) {
+        function handleInventorySubmit(e) {
             e.preventDefault();
-            const newItem = { name: document.getElementById('inv-name').value, qty: parseInt(document.getElementById('inv-qty').value) || 1, category: document.getElementById('inv-cat').value, autoRestock: true };
-            await fetch('/api/inventory', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newItem) });
-            closeModal('inventory-modal'); fetchAllData();
+            const newItem = { 
+                id: Date.now(), 
+                name: document.getElementById('inv-name').value, 
+                qty: parseInt(document.getElementById('inv-qty').value) || 1, 
+                category: document.getElementById('inv-cat').value 
+            };
+            inventory.push(newItem);
+            saveToLocalStorage();
+            closeModal('inventory-modal'); 
+            renderAll();
         }
 
-        async function deleteItem(table, id) {
-            await fetch(`/api/${table}/${id}`, { method: 'DELETE' });
-            fetchAllData();
-        }
-
-        async function renderShoppingList() {
+        // --- LISTA DELLA SPESA ---
+        function renderShoppingList() {
             const list = document.getElementById('shopping-list');
             list.innerHTML = '';
             shoppingList.forEach(item => {
                 const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border';
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
                 el.innerHTML = `
                     <div class="flex items-center space-x-2">
-                        <button onclick="purchaseItem(${item.id})" class="w-5 h-5 border-2 border-emerald-500 rounded flex items-center justify-center text-emerald-600 hover:bg-emerald-500 hover:text-white"><i data-lucide="check" class="w-3 h-3"></i></button>
-                        <span class="text-sm font-medium">${item.name} (${item.qty})</span>
+                        <button onclick="purchaseItem(${item.id})" class="w-5 h-5 border-2 border-emerald-500 rounded flex items-center justify-center text-emerald-600 hover:bg-emerald-500 hover:text-white transition"><i data-lucide="check" class="w-3 h-3"></i></button>
+                        <span class="font-medium">${item.name} (${item.qty})</span>
                     </div>
                     <button onclick="deleteItem('shopping', ${item.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="x" class="w-4 h-4"></i></button>`;
                 list.appendChild(el);
@@ -431,27 +443,36 @@
             lucide.createIcons();
         }
 
-        async function handleShoppingSubmit(e) {
+        function handleShoppingSubmit(e) {
             e.preventDefault();
-            const newItem = { name: document.getElementById('shop-name').value, qty: parseInt(document.getElementById('shop-qty').value) || 1 };
-            await fetch('/api/shopping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newItem) });
-            closeModal('shopping-modal'); fetchAllData();
+            const newItem = { 
+                id: Date.now(), 
+                name: document.getElementById('shop-name').value, 
+                qty: parseInt(document.getElementById('shop-qty').value) || 1 
+            };
+            shoppingList.push(newItem);
+            saveToLocalStorage();
+            closeModal('shopping-modal'); 
+            renderAll();
         }
 
-        async function purchaseItem(id) {
+        function purchaseItem(id) {
             const item = shoppingList.find(s => s.id === id);
             if (item) {
-                await fetch('/api/inventory', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: item.name, qty: item.qty, category: 'Acquistato', autoRestock: false }) });
-                await deleteItem('shopping', id);
+                inventory.push({ id: Date.now(), name: item.name, qty: item.qty, category: 'Acquistato' });
+                shoppingList = shoppingList.filter(s => s.id !== id);
+                saveToLocalStorage();
+                renderAll();
             }
         }
 
-        async function renderMaintenance() {
+        // --- SCADENZE ---
+        function renderMaintenance() {
             const list = document.getElementById('maintenance-list');
             list.innerHTML = '';
             maintenance.forEach(m => {
                 const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs';
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
                 el.innerHTML = `<div><p class="font-semibold">${m.title}</p><span class="text-slate-400">Scadenza: ${m.date}</span></div>
                     <button onclick="deleteItem('maintenance', ${m.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
                 list.appendChild(el);
@@ -459,109 +480,177 @@
             lucide.createIcons();
         }
 
-        async function handleMaintenanceSubmit(e) {
+        function handleMaintenanceSubmit(e) {
             e.preventDefault();
-            const data = { title: document.getElementById('maint-title').value, date: document.getElementById('maint-date').value, status: document.getElementById('maint-status').value };
-            await fetch('/api/maintenance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-            closeModal('maintenance-modal'); fetchAllData();
+            const data = { 
+                id: Date.now(), 
+                title: document.getElementById('maint-title').value, 
+                date: document.getElementById('maint-date').value, 
+                status: document.getElementById('maint-status').value 
+            };
+            maintenance.push(data);
+            saveToLocalStorage();
+            closeModal('maintenance-modal'); 
+            renderAll();
         }
 
-        async function renderTasks() {
+        // --- ATTIVITA' CASA ---
+        function renderTasks() {
             const list = document.getElementById('tasks-list');
             list.innerHTML = '';
             tasks.forEach(t => {
                 const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs';
-                el.innerHTML = `<div class="flex items-center space-x-2"><input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})"><span class="${t.done ? 'line-through text-slate-400' : ''}">${t.title}</span></div>
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
+                el.innerHTML = `<div><p class="font-semibold">${t.title}</p><span class="text-slate-400">Data: ${t.date}</span></div>
                     <button onclick="deleteItem('tasks', ${t.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
                 list.appendChild(el);
             });
             lucide.createIcons();
         }
 
-        async function toggleTask(id) {
-            const t = tasks.find(x => x.id === id);
-            if (t) {
-                t.done = t.done ? 0 : 1;
-                await fetch(`/api/tasks/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(t) });
-                renderTasks();
-            }
-        }
-
-        async function handleTaskSubmit(e) {
+        function handleTaskSubmit(e) {
             e.preventDefault();
-            const data = { title: document.getElementById('task-title').value, date: document.getElementById('task-date').value, recurrence: document.getElementById('task-recurrence').value, done: 0 };
-            await fetch('/api/tasks', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-            closeModal('task-modal'); fetchAllData();
+            const data = { 
+                id: Date.now(), 
+                title: document.getElementById('task-title').value, 
+                date: document.getElementById('task-date').value, 
+                recurrence: document.getElementById('task-recurrence').value 
+            };
+            tasks.push(data);
+            saveToLocalStorage();
+            closeModal('task-modal'); 
+            renderAll();
         }
 
-        async function renderTransactions() {
+        // --- TRANSAZIONI E FINANZE ---
+        function renderTransactions() {
             const list = document.getElementById('transactions-list');
             list.innerHTML = '';
-            let totalIn = 0, totalOut = 0;
-
             transactions.forEach(tx => {
-                if (tx.type === 'income') totalIn += tx.amount; else totalOut += tx.amount;
                 const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-2 rounded bg-slate-50 border text-xs';
-                el.innerHTML = `<div><p class="font-semibold">${tx.desc}</p><span class="text-[10px] text-slate-400">${tx.date}</span></div>
-                    <div class="flex items-center space-x-2"><span class="font-bold ${tx.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}">${tx.type === 'income' ? '+' : '-'} € ${tx.amount.toFixed(2)}</span>
-                    <button onclick="deleteItem('transactions', ${tx.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button></div>`;
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
+                const isInc = tx.type === 'income';
+                el.innerHTML = `
+                    <div><p class="font-semibold">${tx.desc}</p><span class="text-slate-400">${tx.date}</span></div>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-bold ${isInc ? 'text-emerald-600' : 'text-rose-600'}">${isInc ? '+' : '-'} € ${parseFloat(tx.amount).toFixed(2)}</span>
+                        <button onclick="deleteItem('transactions', ${tx.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </div>`;
                 list.appendChild(el);
             });
-
-            const fixedOut = fixedExpenses.reduce((sum, f) => sum + f.amount, 0);
-            const net = totalIn - (totalOut + fixedOut);
-
-            document.getElementById('stat-total-incomes').innerText = `+ € ${totalIn.toFixed(2)}`;
-            document.getElementById('stat-total-expenses').innerText = `- € ${(totalOut + fixedOut).toFixed(2)}`;
-            document.getElementById('stat-total-balance').innerText = `€ ${net.toFixed(2)}`;
             lucide.createIcons();
         }
 
-        async function handleTransactionSubmit(e) {
+        function handleTransactionSubmit(e) {
             e.preventDefault();
-            const data = { type: document.getElementById('tx-type').value, amount: parseFloat(document.getElementById('tx-amount').value), desc: document.getElementById('tx-desc').value, date: document.getElementById('tx-date').value };
-            await fetch('/api/transactions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-            document.getElementById('tx-amount').value = ''; document.getElementById('tx-desc').value = '';
-            fetchAllData();
+            const tx = {
+                id: Date.now(),
+                type: document.getElementById('tx-type').value,
+                amount: parseFloat(document.getElementById('tx-amount').value),
+                desc: document.getElementById('tx-desc').value,
+                date: document.getElementById('tx-date').value
+            };
+            transactions.push(tx);
+            saveToLocalStorage();
+            e.target.reset();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tx-date').value = today;
+            renderAll();
         }
 
-        async function handleFixedExpenseSubmit(e) {
-            e.preventDefault();
-            const data = { desc: document.getElementById('fix-desc').value, amount: parseFloat(document.getElementById('fix-amount').value), monthsTotal: 12, startDate: new Date().toISOString().split('T')[0] };
-            await fetch('/api/fixed_expenses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-            fetchAllData();
-        }
-
-        async function renderFixedExpenses() {
+        // --- SPESE FISSE ---
+        function renderFixedExpenses() {
             const list = document.getElementById('fixed-expenses-list');
             list.innerHTML = '';
-            fixedExpenses.forEach(f => {
+            fixedExpenses.forEach(fix => {
                 const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-2 rounded bg-slate-50 border text-xs';
-                el.innerHTML = `<span>${f.desc}</span><div class="flex items-center space-x-2"><span class="font-bold">€ ${f.amount.toFixed(2)}/m</span><button onclick="deleteItem('fixed_expenses', ${f.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-3 h-3"></i></button></div>`;
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
+                el.innerHTML = `
+                    <div><p class="font-semibold">${fix.desc}</p><span class="text-slate-400">Durata: ${fix.duration}</span></div>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-bold text-blue-600">€ ${parseFloat(fix.amount).toFixed(2)}</span>
+                        <button onclick="deleteItem('fixed', ${fix.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </div>`;
                 list.appendChild(el);
             });
             lucide.createIcons();
+        }
+
+        function handleFixedExpenseSubmit(e) {
+            e.preventDefault();
+            const fix = {
+                id: Date.now(),
+                desc: document.getElementById('fix-desc').value,
+                amount: parseFloat(document.getElementById('fix-amount').value),
+                duration: document.getElementById('fix-duration').value
+            };
+            fixedExpenses.push(fix);
+            saveToLocalStorage();
+            e.target.reset();
+            renderAll();
+        }
+
+        // --- CANCELLAZIONE GENERICA ---
+        function deleteItem(type, id) {
+            if (type === 'inventory') inventory = inventory.filter(i => i.id !== id);
+            if (type === 'shopping') shoppingList = shoppingList.filter(s => s.id !== id);
+            if (type === 'maintenance') maintenance = maintenance.filter(m => m.id !== id);
+            if (type === 'tasks') tasks = tasks.filter(t => t.id !== id);
+            if (type === 'transactions') transactions = transactions.filter(tx => tx.id !== id);
+            if (type === 'fixed') fixedExpenses = fixedExpenses.filter(f => f.id !== id);
+            
+            saveToLocalStorage();
+            renderAll();
+        }
+
+        // --- STATISTICHE E GRAFICO ---
+        function updateFinancialStats() {
+            let totalIncome = 0;
+            let totalExpense = 0;
+
+            transactions.forEach(tx => {
+                if (tx.type === 'income') totalIncome += tx.amount;
+                else totalExpense += tx.amount;
+            });
+
+            fixedExpenses.forEach(fix => {
+                totalExpense += fix.amount;
+            });
+
+            const balance = totalIncome - totalExpense;
+
+            document.getElementById('stat-total-balance').innerText = `€ ${balance.toFixed(2)}`;
+            document.getElementById('stat-total-incomes').innerText = `+ € ${totalIncome.toFixed(2)}`;
+            document.getElementById('stat-total-expenses').innerText = `- € ${totalExpense.toFixed(2)}`;
         }
 
         function renderCompareChart() {
-            const ctx = document.getElementById('compareChart');
-            if(!ctx) return;
-            const totalIn = transactions.filter(t => t.type === 'income').reduce((acc, t) => acc + t.amount, 0);
-            const totalOut = transactions.filter(t => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0) + fixedExpenses.reduce((acc, f) => acc + f.amount, 0);
+            updateFinancialStats();
+            let totalIncome = transactions.filter(t => t.type === 'income').reduce((acc, t) => acc + t.amount, 0);
+            let totalExpense = transactions.filter(t => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0);
+            fixedExpenses.forEach(f => totalExpense += f.amount);
 
-            if (compareChartInstance) {
-                compareChartInstance.data.datasets[0].data = [totalIn, totalOut];
-                compareChartInstance.update();
-            } else {
-                compareChartInstance = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: { labels: ['Entrate', 'Uscite'], datasets: [{ data: [totalIn, totalOut], backgroundColor: ['#10b981', '#f43f5e'] }] },
-                    options: { responsive: true, maintainAspectRatio: false }
-                });
-            }
+            const ctx = document.getElementById('compareChart').getContext('2d');
+            if (compareChartInstance) compareChartInstance.destroy();
+
+            compareChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Entrate', 'Uscite'],
+                    datasets: [{
+                        data: [totalIncome || 0.01, totalExpense || 0.01],
+                        backgroundColor: ['#10b981', '#f43f5e'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
         }
     </script>
 </body>
