@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Casa & Finanze</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Navbar Sticky -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Brand / Logo -->
+                <button onclick="showView('hub')" class="flex items-center space-x-3 focus:outline-none group">
+                    <div class="bg-indigo-600 group-hover:bg-indigo-700 text-white p-2 rounded-xl shadow-md transition">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                    </div>
+                    <div class="text-left">
+                        <h1 class="font-bold text-lg text-slate-900 leading-none">Home & Finance</h1>
+                        <p class="text-xs text-slate-500">Sincronizzato & SQLite</p>
+                    </div>
+                </button>
+
+                <!-- Navigation Bar -->
+                <nav class="flex space-x-1 sm:space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                    <button id="nav-btn-hub" onclick="showView('hub')" class="flex items-center space-x-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
+                        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                        <span>Inizio</span>
+                    </button>
+                    <button id="nav-btn-casa" onclick="showView('casa')" class="flex items-center space-x-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
+                        <i data-lucide="home" class="w-4 h-4"></i>
+                        <span>Gestione Casa</span>
+                    </button>
+                    <button id="nav-btn-finanze" onclick="showView('finanze')" class="flex items-center space-x-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
+                        <i data-lucide="trending-up" class="w-4 h-4"></i>
+                        <span>Finanze</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ================= VIEW 0: HUB ================= -->
+        <section id="view-hub" class="space-y-8 py-8">
+            <div class="text-center max-w-2xl mx-auto space-y-3">
+                <span class="px-3 py-1 bg-indigo-50 text-indigo-600 font-semibold text-xs rounded-full uppercase tracking-wider border border-indigo-100">
+                    Pannello Principale
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Cosa vuoi gestire?</h2>
+                <p class="text-slate-500 text-sm">I dati sono salvati sul server e sincronizzati in tempo reale.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-2">
+                <div onclick="showView('casa')" class="group bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-indigo-400 transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="home" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Gestione Casa</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">Inventario, lista spesa intelligente, scadenze e attività domestiche.</p>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between font-semibold text-sm text-indigo-600">
+                        <span>Accedi</span><i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <div onclick="showView('finanze')" class="group bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-emerald-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-200 mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="trending-up" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">Finanze</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">Entrate, uscite, spese fisse ricorrenti e portafoglio investimenti.</p>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between font-semibold text-sm text-emerald-600">
+                        <span>Accedi</span><i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 1: GESTIONE CASA ================= -->
+        <section id="view-casa" class="space-y-8 hidden">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+                <button onclick="showView('hub')" class="inline-flex items-center text-xs font-medium text-slate-500 hover:text-indigo-600 transition">
+                    <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i> Torna alla Selezione Principale
+                </button>
+                <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">Area Gestione Casa</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Inventario -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="boxes" class="w-5 h-5 text-indigo-600"></i> Inventario Casa</h3>
+                                <p class="text-xs text-slate-500">Gestisci le giacenze</p>
+                            </div>
+                            <button onclick="openModal('inventory-modal')" class="inline-flex items-center space-x-1 text-xs bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold px-3 py-1.5 rounded-xl transition">
+                                <i data-lucide="plus" class="w-4 h-4"></i><span>Nuovo Articolo</span>
+                            </button>
+                        </div>
+                        <div class="mb-3">
+                            <input id="inventory-search" type="text" oninput="renderInventory()" placeholder="🔍 Cerca nell'inventario..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs outline-none">
+                        </div>
+                        <div id="inventory-list" class="space-y-3 max-h-[320px] overflow-y-auto pr-1"></div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-400 flex justify-between">
+                        <span id="inventory-count-text">0 articoli salvati</span>
+                    </div>
+                </div>
+
+                <!-- Lista della Spesa -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="shopping-cart" class="w-5 h-5 text-emerald-600"></i> Lista della Spesa</h3>
+                                <p class="text-xs text-slate-500">I prodotti acquistati si spostano nell'inventario</p>
+                            </div>
+                            <button onclick="openModal('shopping-modal')" class="inline-flex items-center space-x-1 text-xs bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-semibold px-3 py-1.5 rounded-xl transition">
+                                <i data-lucide="plus" class="w-4 h-4"></i><span>Aggiungi</span>
+                            </button>
+                        </div>
+                        <div id="shopping-list" class="space-y-2.5 max-h-[360px] overflow-y-auto pr-1"></div>
+                    </div>
+                </div>
+
+                <!-- Scadenze -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="calendar" class="w-5 h-5 text-amber-500"></i> Scadenze e Manutenzioni</h3>
+                        </div>
+                        <button onclick="openModal('maintenance-modal')" class="inline-flex items-center space-x-1 text-xs bg-amber-50 text-amber-700 font-semibold px-3 py-1.5 rounded-xl transition">
+                            <i data-lucide="plus" class="w-4 h-4"></i><span>Aggiungi</span>
+                        </button>
+                    </div>
+                    <div id="maintenance-list" class="space-y-3 max-h-[300px] overflow-y-auto pr-1"></div>
+                </div>
+
+                <!-- Attività Casa -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="check-square" class="w-5 h-5 text-purple-600"></i> Lista Attività Casa</h3>
+                        </div>
+                        <button onclick="openModal('task-modal')" class="inline-flex items-center space-x-1 text-xs bg-purple-50 text-purple-700 font-semibold px-3 py-1.5 rounded-xl transition">
+                            <i data-lucide="plus" class="w-4 h-4"></i><span>Nuova Mansione</span>
+                        </button>
+                    </div>
+                    <div id="tasks-list" class="space-y-2.5 max-h-[320px] overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VIEW 2: FINANZE ================= -->
+        <section id="view-finanze" class="space-y-8 hidden">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+                <button onclick="showView('hub')" class="inline-flex items-center text-xs font-medium text-slate-500 hover:text-indigo-600 transition">
+                    <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i> Torna alla Selezione Principale
+                </button>
+                <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">Area Finanze</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase">Saldo Cassa Totale</p>
+                    <h3 id="stat-total-balance" class="text-2xl font-bold text-slate-900 mt-1">€ 0,00</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase">Totale Ingressi</p>
+                    <h3 id="stat-total-incomes" class="text-2xl font-bold text-emerald-600 mt-1">+ € 0,00</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase">Totale Uscite</p>
+                    <h3 id="stat-total-expenses" class="text-2xl font-bold text-rose-600 mt-1">- € 0,00</h3>
+                </div>
+            </div>
+
+            <!-- Grafico Entrate/Uscite -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 class="font-bold text-lg text-slate-900"><i data-lucide="pie-chart" class="w-5 h-5 text-indigo-600 inline"></i> Confronto Entrate vs Uscite</h3>
+                    <div id="compare-verdict-badge"></div>
+                </div>
+                <div class="h-60 w-full flex items-center justify-center">
+                    <canvas id="compareChart"></canvas>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Transazioni -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <form onsubmit="handleTransactionSubmit(event)" class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Tipo</label>
+                                <select id="tx-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none">
+                                    <option value="expense">Uscita</option>
+                                    <option value="income">Entrata</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Importo (€)</label>
+                                <input id="tx-amount" type="number" step="0.01" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Descrizione</label>
+                                <input id="tx-desc" type="text" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Data</label>
+                                <input id="tx-date" type="date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl text-sm transition">Registra Movimento</button>
+                    </form>
+                    <div id="transactions-list" class="space-y-2 max-h-[260px] overflow-y-auto"></div>
+                </div>
+
+                <!-- Spese Fisse -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <form onsubmit="handleFixedExpenseSubmit(event)" class="space-y-4 mb-6 bg-slate-50 p-4 rounded-xl border">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Nome Spesa Fissa</label>
+                            <input id="fix-desc" type="text" required class="w-full bg-white border rounded-lg px-3 py-1.5 text-xs outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Importo (€)</label>
+                                <input id="fix-amount" type="number" step="0.01" required class="w-full bg-white border rounded-lg px-3 py-1.5 text-xs outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Durata</label>
+                                <select id="fix-duration" class="w-full bg-white border rounded-lg px-3 py-1.5 text-xs outline-none">
+                                    <option value="forever">Per sempre</option>
+                                    <option value="12">12 Mesi</option>
+                                    <option value="24">24 Mesi</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg text-xs">+ Spesa Ricorrente</button>
+                    </form>
+                    <div id="fixed-expenses-list" class="space-y-2 max-h-[200px] overflow-y-auto"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="inventory-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+            <h3 class="font-bold text-slate-900 text-base">Nuovo Articolo Inventario</h3>
+            <form onsubmit="handleInventorySubmit(event)" class="space-y-4">
+                <input id="inv-name" type="text" placeholder="Nome Articolo" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
+                <input id="inv-qty" type="number" min="0" value="1" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
+                <select id="inv-cat" class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
+                    <option value="Dispensa">Dispensa</option><option value="Frigo">Frigo</option><option value="Pulizia">Pulizia</option>
+                </select>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('inventory-modal')" class="px-4 py-2 text-xs">Annulla</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="shopping-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+            <h3 class="font-bold text-slate-900 text-base">Aggiungi alla Spesa</h3>
+            <form onsubmit="handleShoppingSubmit(event)" class="space-y-4">
+                <input id="shop-name" type="text" placeholder="Prodotto" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
+                <input id="shop-qty" type="number" min="1" value="1" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('shopping-modal')" class="px-4 py-2 text-xs">Annulla</button>
+                    <button type="submit" class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs">Aggiungi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="maintenance-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+            <h3 class="font-bold text-slate-900 text-base">Nuova Scadenza</h3>
+            <form onsubmit="handleMaintenanceSubmit(event)" class="space-y-4">
+                <input id="maint-title" type="text" placeholder="Descrizione" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
+                <input id="maint-date" type="date" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
+                <select id="maint-status" class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none"><option value="Programmato">Programmato</option><option value="Urgente">Urgente</option></select>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('maintenance-modal')" class="px-4 py-2 text-xs">Annulla</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-600 text-white rounded-xl text-xs">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="task-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+            <h3 class="font-bold text-slate-900 text-base">Nuova Attività</h3>
+            <form onsubmit="handleTaskSubmit(event)" class="space-y-4">
+                <input id="task-title" type="text" placeholder="Mansione" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
+                <input id="task-date" type="date" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
+                <select id="task-recurrence" class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none"><option value="none">Singola</option><option value="weekly">Settimanale</option></select>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('task-modal')" class="px-4 py-2 text-xs">Annulla</button>
+                    <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-xl text-xs">Salva</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let inventory = [], shoppingList = [], maintenance = [], tasks = [], transactions = [], fixedExpenses = [], investmentHistory = [];
+        let compareChartInstance = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            ['tx-date', 'task-date', 'maint-date'].forEach(id => {
+                if(document.getElementById(id)) document.getElementById(id).value = today;
+            });
+            fetchAllData();
+            lucide.createIcons();
+        });
+
+        async function fetchAllData() {
+            try {
+                const [invRes, shopRes, maintRes, taskRes, txRes, fixRes, invHistRes] = await Promise.all([
+                    fetch('/api/inventory').then(r => r.json()),
+                    fetch('/api/shopping').then(r => r.json()),
+                    fetch('/api/maintenance').then(r => r.json()),
+                    fetch('/api/tasks').then(r => r.json()),
+                    fetch('/api/transactions').then(r => r.json()),
+                    fetch('/api/fixed_expenses').then(r => r.json()),
+                    fetch('/api/investments').then(r => r.json())
+                ]);
+                inventory = invRes; shoppingList = shopRes; maintenance = maintRes;
+                tasks = taskRes; transactions = txRes; fixedExpenses = fixRes; investmentHistory = invHistRes;
+                renderAll();
+            } catch (err) { console.error("Errore:", err); }
+        }
+
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function showView(viewName) {
+            ['view-hub', 'view-casa', 'view-finanze'].forEach(v => document.getElementById(v).classList.add('hidden'));
+            document.getElementById('view-' + viewName).classList.remove('hidden');
+            if (viewName === 'finanze') renderCompareChart();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderAll() {
+            renderInventory(); renderShoppingList(); renderMaintenance();
+            renderTasks(); renderTransactions(); renderFixedExpenses();
+        }
+
+        async function renderInventory() {
+            const list = document.getElementById('inventory-list');
+            list.innerHTML = '';
+            const query = document.getElementById('inventory-search')?.value.toLowerCase().trim() || '';
+            inventory.filter(i => i.name.toLowerCase().includes(query)).forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border';
+                el.innerHTML = `
+                    <div><p class="text-sm font-semibold">${item.name}</p><span class="text-[10px] text-slate-400">${item.category || ''}</span></div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-white border rounded">-</button>
+                        <span class="w-6 text-center text-xs font-bold">${item.qty}</span>
+                        <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-indigo-600 text-white rounded">+</button>
+                        <button onclick="deleteItem('inventory', ${item.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    </div>`;
+                list.appendChild(el);
+            });
+            document.getElementById('inventory-count-text').innerText = `${inventory.length} articoli totali`;
+            lucide.createIcons();
+        }
+
+        async function changeQty(id, delta) {
+            const item = inventory.find(i => i.id === id);
+            if (item) {
+                item.qty = Math.max(0, item.qty + delta);
+                await fetch(`/api/inventory/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(item) });
+                renderInventory();
+            }
+        }
+
+        async function handleInventorySubmit(e) {
+            e.preventDefault();
+            const newItem = { name: document.getElementById('inv-name').value, qty: parseInt(document.getElementById('inv-qty').value) || 1, category: document.getElementById('inv-cat').value, autoRestock: true };
+            await fetch('/api/inventory', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newItem) });
+            closeModal('inventory-modal'); fetchAllData();
+        }
+
+        async function deleteItem(table, id) {
+            await fetch(`/api/${table}/${id}`, { method: 'DELETE' });
+            fetchAllData();
+        }
+
+        async function renderShoppingList() {
+            const list = document.getElementById('shopping-list');
+            list.innerHTML = '';
+            shoppingList.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border';
+                el.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <button onclick="purchaseItem(${item.id})" class="w-5 h-5 border-2 border-emerald-500 rounded flex items-center justify-center text-emerald-600 hover:bg-emerald-500 hover:text-white"><i data-lucide="check" class="w-3 h-3"></i></button>
+                        <span class="text-sm font-medium">${item.name} (${item.qty})</span>
+                    </div>
+                    <button onclick="deleteItem('shopping', ${item.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="x" class="w-4 h-4"></i></button>`;
+                list.appendChild(el);
+            });
+            lucide.createIcons();
+        }
+
+        async function handleShoppingSubmit(e) {
+            e.preventDefault();
+            const newItem = { name: document.getElementById('shop-name').value, qty: parseInt(document.getElementById('shop-qty').value) || 1 };
+            await fetch('/api/shopping', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newItem) });
+            closeModal('shopping-modal'); fetchAllData();
+        }
+
+        async function purchaseItem(id) {
+            const item = shoppingList.find(s => s.id === id);
+            if (item) {
+                await fetch('/api/inventory', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: item.name, qty: item.qty, category: 'Acquistato', autoRestock: false }) });
+                await deleteItem('shopping', id);
+            }
+        }
+
+        async function renderMaintenance() {
+            const list = document.getElementById('maintenance-list');
+            list.innerHTML = '';
+            maintenance.forEach(m => {
+                const el = document.createElement('div');
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs';
+                el.innerHTML = `<div><p class="font-semibold">${m.title}</p><span class="text-slate-400">Scadenza: ${m.date}</span></div>
+                    <button onclick="deleteItem('maintenance', ${m.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
+                list.appendChild(el);
+            });
+            lucide.createIcons();
+        }
+
+        async function handleMaintenanceSubmit(e) {
+            e.preventDefault();
+            const data = { title: document.getElementById('maint-title').value, date: document.getElementById('maint-date').value, status: document.getElementById('maint-status').value };
+            await fetch('/api/maintenance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            closeModal('maintenance-modal'); fetchAllData();
+        }
+
+        async function renderTasks() {
+            const list = document.getElementById('tasks-list');
+            list.innerHTML = '';
+            tasks.forEach(t => {
+                const el = document.createElement('div');
+                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs';
+                el.innerHTML = `<div class="flex items-center space-x-2"><input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})"><span class="${t.done ? 'line-through text-slate-400' : ''}">${t.title}</span></div>
+                    <button onclick="deleteItem('tasks', ${t.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
+                list.appendChild(el);
+            });
+            lucide.createIcons();
+        }
+
+        async function toggleTask(id) {
+            const t = tasks.find(x => x.id === id);
+            if (t) {
+                t.done = t.done ? 0 : 1;
+                await fetch(`/api/tasks/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(t) });
+                renderTasks();
+            }
+        }
+
+        async function handleTaskSubmit(e) {
+            e.preventDefault();
+            const data = { title: document.getElementById('task-title').value, date: document.getElementById('task-date').value, recurrence: document.getElementById('task-recurrence').value, done: 0 };
+            await fetch('/api/tasks', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            closeModal('task-modal'); fetchAllData();
+        }
+
+        async function renderTransactions() {
+            const list = document.getElementById('transactions-list');
+            list.innerHTML = '';
+            let totalIn = 0, totalOut = 0;
+
+            transactions.forEach(tx => {
+                if (tx.type === 'income') totalIn += tx.amount; else totalOut += tx.amount;
+                const el = document.createElement('div');
+                el.className = 'flex items-center justify-between p-2 rounded bg-slate-50 border text-xs';
+                el.innerHTML = `<div><p class="font-semibold">${tx.desc}</p><span class="text-[10px] text-slate-400">${tx.date}</span></div>
+                    <div class="flex items-center space-x-2"><span class="font-bold ${tx.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}">${tx.type === 'income' ? '+' : '-'} € ${tx.amount.toFixed(2)}</span>
+                    <button onclick="deleteItem('transactions', ${tx.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button></div>`;
+                list.appendChild(el);
+            });
+
+            const fixedOut = fixedExpenses.reduce((sum, f) => sum + f.amount, 0);
+            const net = totalIn - (totalOut + fixedOut);
+
+            document.getElementById('stat-total-incomes').innerText = `+ € ${totalIn.toFixed(2)}`;
+            document.getElementById('stat-total-expenses').innerText = `- € ${(totalOut + fixedOut).toFixed(2)}`;
+            document.getElementById('stat-total-balance').innerText = `€ ${net.toFixed(2)}`;
+            lucide.createIcons();
+        }
+
+        async function handleTransactionSubmit(e) {
+            e.preventDefault();
+            const data = { type: document.getElementById('tx-type').value, amount: parseFloat(document.getElementById('tx-amount').value), desc: document.getElementById('tx-desc').value, date: document.getElementById('tx-date').value };
+            await fetch('/api/transactions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            document.getElementById('tx-amount').value = ''; document.getElementById('tx-desc').value = '';
+            fetchAllData();
+        }
+
+        async function handleFixedExpenseSubmit(e) {
+            e.preventDefault();
+            const data = { desc: document.getElementById('fix-desc').value, amount: parseFloat(document.getElementById('fix-amount').value), monthsTotal: 12, startDate: new Date().toISOString().split('T')[0] };
+            await fetch('/api/fixed_expenses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            fetchAllData();
+        }
+
+        async function renderFixedExpenses() {
+            const list = document.getElementById('fixed-expenses-list');
+            list.innerHTML = '';
+            fixedExpenses.forEach(f => {
+                const el = document.createElement('div');
+                el.className = 'flex items-center justify-between p-2 rounded bg-slate-50 border text-xs';
+                el.innerHTML = `<span>${f.desc}</span><div class="flex items-center space-x-2"><span class="font-bold">€ ${f.amount.toFixed(2)}/m</span><button onclick="deleteItem('fixed_expenses', ${f.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-3 h-3"></i></button></div>`;
+                list.appendChild(el);
+            });
+            lucide.createIcons();
+        }
+
+        function renderCompareChart() {
+            const ctx = document.getElementById('compareChart');
+            if(!ctx) return;
+            const totalIn = transactions.filter(t => t.type === 'income').reduce((acc, t) => acc + t.amount, 0);
+            const totalOut = transactions.filter(t => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0) + fixedExpenses.reduce((acc, f) => acc + f.amount, 0);
+
+            if (compareChartInstance) {
+                compareChartInstance.data.datasets[0].data = [totalIn, totalOut];
+                compareChartInstance.update();
+            } else {
+                compareChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: { labels: ['Entrate', 'Uscite'], datasets: [{ data: [totalIn, totalOut], backgroundColor: ['#10b981', '#f43f5e'] }] },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
