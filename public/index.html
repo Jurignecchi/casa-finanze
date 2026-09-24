@@ -6,8 +6,8 @@
     <title>Gestione Casa & Finanze</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Lucide Icons UMD -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -26,7 +26,7 @@
                     <div class="bg-indigo-600 group-hover:bg-indigo-700 text-white p-2 rounded-xl shadow-md transition">
                         <i data-lucide="layout-grid" class="w-5 h-5"></i>
                     </div>
-                    <div class="text-left hidden xs:block">
+                    <div class="text-left hidden sm:block">
                         <h1 class="font-bold text-sm sm:text-lg text-slate-900 leading-none">Home & Finance</h1>
                         <p class="text-[10px] sm:text-xs text-slate-500">Gestione Integrata</p>
                     </div>
@@ -661,7 +661,7 @@
             if(document.getElementById('maint-date')) document.getElementById('maint-date').value = today;
 
             renderAll();
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         });
 
         // MODAL HELPERS
@@ -761,7 +761,7 @@
                 });
             }
             document.getElementById('inventory-count-text').innerText = `${inventory.length} articoli totali`;
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function toggleAutoRestock(id) {
@@ -841,7 +841,7 @@
                     list.appendChild(el);
                 });
             }
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function changeShoppingQty(id, delta) {
@@ -908,7 +908,7 @@
                     el.innerHTML = `
                         <div>
                             <p class="text-xs sm:text-sm font-semibold text-slate-800">${item.title}</p>
-                            <p class-[11px] text-slate-400">${item.date}</p>
+                            <p class="text-[11px] text-slate-400">${item.date}</p>
                         </div>
                         <div class="flex items-center space-x-2">
                             <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 font-medium border border-amber-100">${item.status}</span>
@@ -920,7 +920,7 @@
                     list.appendChild(el);
                 });
             }
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function handleMaintenanceSubmit(e) {
@@ -982,7 +982,7 @@
                 `;
                 list.appendChild(el);
             });
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function calculateNextDate(dateStr, recurrence) {
@@ -1039,7 +1039,7 @@
             const desc = document.getElementById('tx-desc').value;
             const date = document.getElementById('tx-date').value;
 
-            if (amount && desc) {
+            if (!isNaN(amount) && amount > 0 && desc) {
                 transactions.unshift({ id: Date.now(), desc, amount, type, date });
                 document.getElementById('tx-amount').value = '';
                 document.getElementById('tx-desc').value = '';
@@ -1128,7 +1128,7 @@
             document.getElementById('stat-total-expenses-sub').innerText = `€ ${totalSingleOut.toFixed(2)} singole + € ${totalFixedOut.toFixed(2)} fisse`;
             document.getElementById('stat-total-balance').innerText = `€ ${netBalance.toFixed(2)}`;
 
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function toggleCustomDurationInput() {
@@ -1157,7 +1157,7 @@
                 monthsTotal = parseInt(durationVal);
             }
 
-            if (desc && amount) {
+            if (desc && !isNaN(amount) && amount > 0) {
                 fixedExpenses.push({ id: Date.now(), desc, amount, monthsTotal, startDate: new Date().toISOString().split('T')[0] });
                 document.getElementById('fix-desc').value = '';
                 document.getElementById('fix-amount').value = '';
@@ -1192,7 +1192,7 @@
                 `;
                 list.appendChild(el);
             });
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function deleteFixedExpense(id) {
@@ -1251,7 +1251,7 @@
         function handleInvestmentUpdate(e) {
             e.preventDefault();
             const val = parseFloat(document.getElementById('inv-value').value);
-            if (val) {
+            if (!isNaN(val)) {
                 investmentHistory.push({ id: Date.now(), date: new Date().toISOString().split('T')[0], value: val });
                 document.getElementById('inv-value').value = '';
                 renderInvestmentsHistory();
@@ -1283,7 +1283,7 @@
                 `;
                 list.appendChild(el);
             });
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         function renderInvestmentsChart() {
