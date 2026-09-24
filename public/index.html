@@ -14,23 +14,39 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
 
-        /* Stili per le animazioni e l'effetto sfocato (Blur Transition) */
+        /* Stili per le animazioni di scorrimento direzionale (Slide Transition) */
         .view-section {
-            transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
-            will-change: opacity, filter, transform;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity;
+            width: 100%;
         }
 
-        .view-blur-out {
+        /* Uscita / Entrata verso Sinistra */
+        .slide-out-left {
             opacity: 0;
-            filter: blur(12px);
-            transform: scale(0.98);
+            transform: translateX(-30px);
             pointer-events: none;
         }
+        .slide-in-from-left {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
 
-        .view-blur-in {
+        /* Uscita / Entrata verso Destra */
+        .slide-out-right {
+            opacity: 0;
+            transform: translateX(30px);
+            pointer-events: none;
+        }
+        .slide-in-from-right {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        /* Stato Attivo NORMALE */
+        .slide-active {
             opacity: 1;
-            filter: blur(0px);
-            transform: scale(1);
+            transform: translateX(0);
         }
 
         /* Transizione fluida sui pulsanti del selettore */
@@ -76,11 +92,11 @@
     </header>
 
     <!-- Main Container con Contenitore per le Viste -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 overflow-hidden">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 overflow-x-hidden">
 
         <!-- ================= VIEW 0: SCHERMATA INIZIALE / HUB ================= -->
-        <section id="view-hub" class="view-section space-y-6 sm:space-y-8 py-4 sm:py-8">
-            <div class="text-center max-w-2xl mx-auto space-y-2 sm:space-y-3 px-2">
+        <section id="view-hub" class="view-section space-y-6">
+            <div class="text-center max-w-2xl mx-auto space-y-2 sm:space-y-3 px-2 pt-2">
                 <span class="px-3 py-1 bg-indigo-50 text-indigo-600 font-semibold text-xs rounded-full uppercase tracking-wider border border-indigo-100">
                     Pannello Principale
                 </span>
@@ -409,7 +425,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT LOGICA CLIENT CON COLLEGAMENTO API ED EFFETTI SFOCATO / COLORAZIONE -->
+    <!-- SCRIPT LOGICA CLIENT -->
     <script>
         let inventory = [];
         let shoppingList = [];
@@ -421,6 +437,9 @@
 
         let chartInstance = null;
         let compareChartInstance = null;
+
+        // Ordine delle schermate per calcolare la direzione dello scorrimento (Slide)
+        const viewOrder = { 'hub': 0, 'casa': 1, 'finanze': 2 };
         let currentActiveView = 'hub';
         let isTransitioning = false;
 
@@ -461,7 +480,7 @@
             // Inizializza visualizzazione e selettori
             updateNavTheme('hub');
             const initialHub = document.getElementById('view-hub');
-            if (initialHub) initialHub.classList.add('view-blur-in');
+            if (initialHub) initialHub.classList.add('slide-active');
 
             loadAllData();
             if (window.lucide) lucide.createIcons();
@@ -502,11 +521,10 @@
             }
         }
 
-        // MOSTRA VISTA CON ANIMAZIONE BLUR E DISSOLVENZA SOTTO
+        // MOSTRA VISTA CON ANIMAZIONE DI SCORRIMENTO DINAMICO
         function showView(targetViewName) {
             if (currentActiveView === targetViewName || isTransitioning) return;
 
-            const views = ['hub', 'casa', 'finanze'];
             const currentEl = document.getElementById(`view-${currentActiveView}`);
             const targetEl = document.getElementById(`view-${targetViewName}`);
 
@@ -514,33 +532,43 @@
 
             isTransitioning = true;
 
-            // 1. Aggiorna subito il colore del selettore in alto
+            // Determina la direzione dello scorrimento in base alla posizione dei tab
+            const isMovingRight = viewOrder[targetViewName] > viewOrder[currentActiveView];
+
+            // 1. Aggiorna subito il colore della barra di navigazione
             updateNavTheme(targetViewName);
 
-            // 2. Sfoca ed effettua la dissolvenza della schermata corrente
+            // Classe per la vista in uscita e per quella in entrata
+            const exitClass = isMovingRight ? 'slide-out-left' : 'slide-out-right';
+            const enterStartClass = isMovingRight ? 'slide-in-from-right' : 'slide-in-from-left';
+
+            // 2. Anima la vista corrente verso l'uscita
             if (currentEl) {
-                currentEl.classList.remove('view-blur-in');
-                currentEl.classList.add('view-blur-out');
+                currentEl.classList.remove('slide-active', 'slide-in-from-right', 'slide-in-from-left');
+                currentEl.classList.add(exitClass);
             }
 
-            // 3. Cambia la schermata e applica l'effetto di riapparizione nitida
+            // 3. Esegui il cambio di schermata e l'animazione di entrata
             setTimeout(() => {
+                const views = ['hub', 'casa', 'finanze'];
                 views.forEach(v => {
                     const el = document.getElementById(`view-${v}`);
                     if (el) {
                         el.classList.add('hidden');
-                        el.classList.remove('view-blur-out', 'view-blur-in');
+                        el.classList.remove('slide-out-left', 'slide-out-right', 'slide-in-from-right', 'slide-in-from-left', 'slide-active');
                     }
                 });
 
+                // Prepara la vista di destinazione
                 targetEl.classList.remove('hidden');
-                targetEl.classList.add('view-blur-out');
+                targetEl.classList.add(enterStartClass);
 
-                // Forza il reflow DOM per attivare la transizione CSS
+                // Forza il reflow DOM per far percepire il cambio di posizione iniziale a CSS
                 void targetEl.offsetWidth;
 
-                targetEl.classList.remove('view-blur-out');
-                targetEl.classList.add('view-blur-in');
+                // Applica la transizione verso lo stato attivo
+                targetEl.classList.remove(enterStartClass);
+                targetEl.classList.add('slide-active');
 
                 currentActiveView = targetViewName;
                 isTransitioning = false;
@@ -551,7 +579,7 @@
                 }
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 250);
+            }, 200);
         }
 
         function renderAll() {
@@ -584,7 +612,6 @@
                         <span class="text-[10px] text-slate-400">${item.category || 'Casa'}</span>
                     </div>
                     
-                    <!-- Selettore ON/OFF Auto-Restock -->
                     <div class="flex items-center gap-1 shrink-0" title="Auto-aggiungi alla spesa se la quantità arriva a 0">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" ${isChecked} onchange="toggleAutoRestock(${item.id})" class="sr-only peer">
