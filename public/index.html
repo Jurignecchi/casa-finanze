@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Casa & Finanze</title>
-
-    <!-- Favicon per la scheda di Chrome (Casetta Azzurra) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233b82f6'><path d='M11.47 2.47a.75.75 0 0 1 1.06 0l9 9a.75.75 0 0 1-1.06 1.06l-.97-.97V21a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75v-5.25a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H4.5A.75.75 0 0 1 3 21V11.56l-.97.97a.75.75 0 1 1-1.06-1.06l9-9z'/></svg>">
-
-    <!-- Icona per la schermata home (Android / iOS) -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233b82f6'><path d='M11.47 2.47a.75.75 0 0 1 1.06 0l9 9a.75.75 0 0 1-1.06 1.06l-.97-.97V21a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75v-5.25a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H4.5A.75.75 0 0 1 3 21V11.56l-.97.97a.75.75 0 1 1-1.06-1.06l9-9z'/></svg>">
-
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons UMD -->
@@ -20,6 +13,30 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+
+        /* Stili per le animazioni e l'effetto sfocato (Blur Transition) */
+        .view-section {
+            transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+            will-change: opacity, filter, transform;
+        }
+
+        .view-blur-out {
+            opacity: 0;
+            filter: blur(12px);
+            transform: scale(0.98);
+            pointer-events: none;
+        }
+
+        .view-blur-in {
+            opacity: 1;
+            filter: blur(0px);
+            transform: scale(1);
+        }
+
+        /* Transizione fluida sui pulsanti del selettore */
+        .nav-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
@@ -30,7 +47,7 @@
             <div class="flex justify-between items-center h-16 gap-2">
                 <!-- Brand / Logo -->
                 <button onclick="showView('hub')" class="flex items-center space-x-2 sm:space-x-3 focus:outline-none group shrink-0">
-                    <div class="bg-indigo-600 group-hover:bg-indigo-700 text-white p-2 rounded-xl shadow-md transition">
+                    <div id="brand-icon-bg" class="bg-indigo-600 text-white p-2 rounded-xl shadow-md transition-colors duration-300">
                         <i data-lucide="layout-grid" class="w-5 h-5"></i>
                     </div>
                     <div class="text-left hidden sm:block">
@@ -39,17 +56,17 @@
                     </div>
                 </button>
 
-                <!-- Navigation Bar -->
+                <!-- Navigation Bar con Selettore Dinamico -->
                 <nav class="flex space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto">
-                    <button id="nav-btn-hub" onclick="showView('hub')" class="flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap">
+                    <button id="nav-btn-hub" onclick="showView('hub')" class="nav-btn flex items-center space-x-1 px-3 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap">
                         <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
                         <span>Inizio</span>
                     </button>
-                    <button id="nav-btn-casa" onclick="showView('casa')" class="flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap">
+                    <button id="nav-btn-casa" onclick="showView('casa')" class="nav-btn flex items-center space-x-1 px-3 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap">
                         <i data-lucide="home" class="w-3.5 h-3.5"></i>
                         <span>Casa</span>
                     </button>
-                    <button id="nav-btn-finanze" onclick="showView('finanze')" class="flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap">
+                    <button id="nav-btn-finanze" onclick="showView('finanze')" class="nav-btn flex items-center space-x-1 px-3 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap">
                         <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
                         <span>Finanze</span>
                     </button>
@@ -58,11 +75,11 @@
         </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
+    <!-- Main Container con Contenitore per le Viste -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 overflow-hidden">
 
         <!-- ================= VIEW 0: SCHERMATA INIZIALE / HUB ================= -->
-        <section id="view-hub" class="space-y-6 sm:space-y-8 py-4 sm:py-8">
+        <section id="view-hub" class="view-section space-y-6 sm:space-y-8 py-4 sm:py-8">
             <div class="text-center max-w-2xl mx-auto space-y-2 sm:space-y-3 px-2">
                 <span class="px-3 py-1 bg-indigo-50 text-indigo-600 font-semibold text-xs rounded-full uppercase tracking-wider border border-indigo-100">
                     Pannello Principale
@@ -109,7 +126,7 @@
         </section>
 
         <!-- ================= VIEW 1: GESTIONE CASA ================= -->
-        <section id="view-casa" class="space-y-6 hidden">
+        <section id="view-casa" class="view-section space-y-6 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-2">
                 <button onclick="showView('hub')" class="inline-flex items-center text-xs font-medium text-slate-500 hover:text-indigo-600 transition">
                     <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i> Torna alla Selezione
@@ -199,7 +216,7 @@
         </section>
 
         <!-- ================= VIEW 2: FINANZE ================= -->
-        <section id="view-finanze" class="space-y-6 hidden">
+        <section id="view-finanze" class="view-section space-y-6 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-2">
                 <button onclick="showView('hub')" class="inline-flex items-center text-xs font-medium text-slate-500 hover:text-indigo-600 transition">
                     <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i> Torna alla Selezione
@@ -392,7 +409,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT LOGICA CLIENT CON COLLEGAMENTO API -->
+    <!-- SCRIPT LOGICA CLIENT CON COLLEGAMENTO API ED EFFETTI SFOCATO / COLORAZIONE -->
     <script>
         let inventory = [];
         let shoppingList = [];
@@ -404,6 +421,8 @@
 
         let chartInstance = null;
         let compareChartInstance = null;
+        let currentActiveView = 'hub';
+        let isTransitioning = false;
 
         // CARICAMENTO DATI DAL SERVER ALL'AVVIO
         async function loadAllData() {
@@ -439,6 +458,11 @@
             if(document.getElementById('maint-date')) document.getElementById('maint-date').value = today;
             if(document.getElementById('fix-date')) document.getElementById('fix-date').value = today;
 
+            // Inizializza visualizzazione e selettori
+            updateNavTheme('hub');
+            const initialHub = document.getElementById('view-hub');
+            if (initialHub) initialHub.classList.add('view-blur-in');
+
             loadAllData();
             if (window.lucide) lucide.createIcons();
         });
@@ -446,11 +470,88 @@
         function openModal(id) { document.getElementById(id)?.classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id)?.classList.add('hidden'); }
 
-        function showView(viewName) {
-            ['hub', 'casa', 'finanze'].forEach(v => document.getElementById(`view-${v}`)?.classList.add('hidden'));
-            document.getElementById(`view-${viewName}`)?.classList.remove('hidden');
-            if (viewName === 'finanze') { renderInvestmentsChart(); renderCompareChart(); }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // GESTIONE DELLE COLORAZIONI DEI SELETTORI IN NAVBAR
+        function updateNavTheme(viewName) {
+            const navItems = {
+                hub: { id: 'nav-btn-hub', activeClass: 'bg-indigo-600 text-white shadow-md shadow-indigo-100 font-semibold' },
+                casa: { id: 'nav-btn-casa', activeClass: 'bg-indigo-600 text-white shadow-md shadow-indigo-100 font-semibold' },
+                finanze: { id: 'nav-btn-finanze', activeClass: 'bg-emerald-600 text-white shadow-md shadow-emerald-100 font-semibold' }
+            };
+
+            const inactiveClass = 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 font-medium';
+
+            Object.keys(navItems).forEach(key => {
+                const btn = document.getElementById(navItems[key].id);
+                if (!btn) return;
+
+                if (key === viewName) {
+                    btn.className = `nav-btn flex items-center space-x-1 px-3 py-1.5 text-xs rounded-lg whitespace-nowrap ${navItems[key].activeClass}`;
+                } else {
+                    btn.className = `nav-btn flex items-center space-x-1 px-3 py-1.5 text-xs rounded-lg whitespace-nowrap ${inactiveClass}`;
+                }
+            });
+
+            // Cambia colore al logo brand in base alla sezione
+            const brandIcon = document.getElementById('brand-icon-bg');
+            if (brandIcon) {
+                if (viewName === 'finanze') {
+                    brandIcon.className = 'bg-emerald-600 text-white p-2 rounded-xl shadow-md transition-colors duration-300';
+                } else {
+                    brandIcon.className = 'bg-indigo-600 text-white p-2 rounded-xl shadow-md transition-colors duration-300';
+                }
+            }
+        }
+
+        // MOSTRA VISTA CON ANIMAZIONE BLUR E DISSOLVENZA SOTTO
+        function showView(targetViewName) {
+            if (currentActiveView === targetViewName || isTransitioning) return;
+
+            const views = ['hub', 'casa', 'finanze'];
+            const currentEl = document.getElementById(`view-${currentActiveView}`);
+            const targetEl = document.getElementById(`view-${targetViewName}`);
+
+            if (!targetEl) return;
+
+            isTransitioning = true;
+
+            // 1. Aggiorna subito il colore del selettore in alto
+            updateNavTheme(targetViewName);
+
+            // 2. Sfoca ed effettua la dissolvenza della schermata corrente
+            if (currentEl) {
+                currentEl.classList.remove('view-blur-in');
+                currentEl.classList.add('view-blur-out');
+            }
+
+            // 3. Cambia la schermata e applica l'effetto di riapparizione nitida
+            setTimeout(() => {
+                views.forEach(v => {
+                    const el = document.getElementById(`view-${v}`);
+                    if (el) {
+                        el.classList.add('hidden');
+                        el.classList.remove('view-blur-out', 'view-blur-in');
+                    }
+                });
+
+                targetEl.classList.remove('hidden');
+                targetEl.classList.add('view-blur-out');
+
+                // Forza il reflow DOM per attivare la transizione CSS
+                void targetEl.offsetWidth;
+
+                targetEl.classList.remove('view-blur-out');
+                targetEl.classList.add('view-blur-in');
+
+                currentActiveView = targetViewName;
+                isTransitioning = false;
+
+                if (targetViewName === 'finanze') {
+                    renderInvestmentsChart();
+                    renderCompareChart();
+                }
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 250);
         }
 
         function renderAll() {
@@ -466,6 +567,7 @@
         // INVENTARIO
         function renderInventory() {
             const list = document.getElementById('inventory-list');
+            if(!list) return;
             list.innerHTML = '';
             const query = document.getElementById('inventory-search')?.value.toLowerCase().trim() || '';
             const filtered = inventory.filter(i => i.name.toLowerCase().includes(query));
@@ -502,7 +604,8 @@
                 `;
                 list.appendChild(el);
             });
-            document.getElementById('inventory-count-text').innerText = `${inventory.length} articoli totali`;
+            const countText = document.getElementById('inventory-count-text');
+            if (countText) countText.innerText = `${inventory.length} articoli totali`;
             if (window.lucide) lucide.createIcons();
         }
 
@@ -571,6 +674,7 @@
         // SPESA
         function renderShoppingList() {
             const list = document.getElementById('shopping-list');
+            if(!list) return;
             list.innerHTML = '';
             shoppingList.forEach(item => {
                 const el = document.createElement('div');
@@ -581,7 +685,6 @@
                         <span class="font-medium text-slate-800 truncate">${item.name}</span>
                     </div>
                     <div class="flex items-center space-x-2 shrink-0">
-                        <!-- Selettore Quantità Rapido -->
                         <div class="flex items-center border border-slate-200 rounded-lg bg-white">
                             <button onclick="changeShoppingQty(${item.id}, -1)" class="px-2 py-0.5 font-bold text-slate-600 hover:bg-slate-100 rounded-l">-</button>
                             <span class="px-2 font-bold text-emerald-600">${item.qty || 1}</span>
@@ -653,6 +756,7 @@
         // SCADENZE & MANUTENZIONE
         function renderMaintenance() {
             const list = document.getElementById('maintenance-list');
+            if(!list) return;
             list.innerHTML = '';
             maintenance.forEach(item => {
                 const el = document.createElement('div');
@@ -696,6 +800,7 @@
         // TASKS
         function renderTasks() {
             const list = document.getElementById('tasks-list');
+            if(!list) return;
             list.innerHTML = '';
             tasks.forEach(item => {
                 const el = document.createElement('div');
@@ -752,6 +857,7 @@
         // MOVIMENTI & FINANZE
         function renderTransactions() {
             const list = document.getElementById('transactions-list');
+            if(!list) return;
             list.innerHTML = '';
             let totalIn = 0, totalOut = 0;
 
@@ -776,9 +882,9 @@
             const fixedTotal = fixedExpenses.reduce((sum, f) => sum + f.amount, 0);
             const totalCombinedOut = totalOut + fixedTotal;
 
-            document.getElementById('stat-total-incomes').innerText = `+ € ${totalIn.toFixed(2)}`;
-            document.getElementById('stat-total-expenses').innerText = `- € ${totalCombinedOut.toFixed(2)}`;
-            document.getElementById('stat-total-balance').innerText = `€ ${(totalIn - totalCombinedOut).toFixed(2)}`;
+            if(document.getElementById('stat-total-incomes')) document.getElementById('stat-total-incomes').innerText = `+ € ${totalIn.toFixed(2)}`;
+            if(document.getElementById('stat-total-expenses')) document.getElementById('stat-total-expenses').innerText = `- € ${totalCombinedOut.toFixed(2)}`;
+            if(document.getElementById('stat-total-balance')) document.getElementById('stat-total-balance').innerText = `€ ${(totalIn - totalCombinedOut).toFixed(2)}`;
 
             if (window.lucide) lucide.createIcons();
         }
@@ -812,6 +918,7 @@
         // SPESE FISSE / RICORRENTI
         function renderFixedExpenses() {
             const list = document.getElementById('fixed-expenses-list');
+            if(!list) return;
             list.innerHTML = '';
             fixedExpenses.forEach(f => {
                 const el = document.createElement('div');
@@ -862,7 +969,6 @@
                 renderTransactions();
                 renderCompareChart();
 
-                // Reset form
                 e.target.reset();
                 document.getElementById('fix-date').value = new Date().toISOString().split('T')[0];
             }
@@ -879,6 +985,7 @@
         // INVESTIMENTI
         function renderInvestmentsHistory() {
             const list = document.getElementById('investments-history-list');
+            if(!list) return;
             list.innerHTML = '';
             [...investmentHistory].reverse().forEach(inv => {
                 const el = document.createElement('div');
