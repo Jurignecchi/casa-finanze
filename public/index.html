@@ -19,31 +19,31 @@
 
     <!-- Navbar Sticky -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 gap-2">
                 <!-- Brand / Logo -->
-                <button onclick="showView('hub')" class="flex items-center space-x-3 focus:outline-none group">
+                <button onclick="showView('hub')" class="flex items-center space-x-2 sm:space-x-3 focus:outline-none group shrink-0">
                     <div class="bg-indigo-600 group-hover:bg-indigo-700 text-white p-2 rounded-xl shadow-md transition">
                         <i data-lucide="layout-grid" class="w-5 h-5"></i>
                     </div>
-                    <div class="text-left">
-                        <h1 class="font-bold text-base sm:text-lg text-slate-900 leading-none">Home & Finance</h1>
-                        <p class="text-[10px] sm:text-xs text-slate-500">Locale & Sincronizzato</p>
+                    <div class="text-left hidden xs:block">
+                        <h1 class="font-bold text-sm sm:text-lg text-slate-900 leading-none">Home & Finance</h1>
+                        <p class="text-[10px] sm:text-xs text-slate-500">Gestione Integrata</p>
                     </div>
                 </button>
 
                 <!-- Navigation Bar -->
-                <nav class="flex space-x-1 sm:space-x-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
-                    <button id="nav-btn-hub" onclick="showView('hub')" class="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
-                        <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                        <span class="hidden xs:inline">Inizio</span>
+                <nav class="flex space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto">
+                    <button id="nav-btn-hub" onclick="showView('hub')" class="flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap">
+                        <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                        <span>Inizio</span>
                     </button>
-                    <button id="nav-btn-casa" onclick="showView('casa')" class="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
-                        <i data-lucide="home" class="w-4 h-4"></i>
-                        <span class="hidden sm:inline">Gestione Casa</span>
+                    <button id="nav-btn-casa" onclick="showView('casa')" class="flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap">
+                        <i data-lucide="home" class="w-3.5 h-3.5"></i>
+                        <span>Casa</span>
                     </button>
-                    <button id="nav-btn-finanze" onclick="showView('finanze')" class="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-all">
-                        <i data-lucide="trending-up" class="w-4 h-4"></i>
+                    <button id="nav-btn-finanze" onclick="showView('finanze')" class="flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 text-xs font-medium rounded-lg transition-all whitespace-nowrap">
+                        <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
                         <span>Finanze</span>
                     </button>
                 </nav>
@@ -52,605 +52,1281 @@
     </header>
 
     <!-- Main Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
 
-        <!-- ================= VIEW 0: HUB ================= -->
-        <section id="view-hub" class="space-y-8 py-8">
-            <div class="text-center max-w-2xl mx-auto space-y-3">
+        <!-- ================= VIEW 0: SCHERMATA INIZIALE / HUB ================= -->
+        <section id="view-hub" class="space-y-6 sm:space-y-8 py-4 sm:py-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2 sm:space-y-3 px-2">
                 <span class="px-3 py-1 bg-indigo-50 text-indigo-600 font-semibold text-xs rounded-full uppercase tracking-wider border border-indigo-100">
                     Pannello Principale
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Cosa vuoi gestire?</h2>
-                <p class="text-slate-500 text-sm">I dati vengono salvati automaticamente nella memoria del browser.</p>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900">Cosa vuoi gestire?</h2>
+                <p class="text-slate-500 text-xs sm:text-sm">Seleziona una delle sezioni sottostanti per iniziare ad organizzare le attività domestiche o le tue finanze personali.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-2">
-                <div onclick="showView('casa')" class="group bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-indigo-400 transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 max-w-4xl mx-auto pt-2">
+                <!-- Card Gestione Casa -->
+                <div onclick="showView('casa')" class="group bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-indigo-400 transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between">
+                    <div class="absolute -right-8 -top-8 w-36 h-36 bg-indigo-50 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
                     <div>
-                        <div class="w-14 h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 mb-6 group-hover:scale-110 transition-transform">
-                            <i data-lucide="home" class="w-7 h-7"></i>
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="home" class="w-6 h-6 sm:w-7 sm:h-7"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Gestione Casa</h3>
-                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">Inventario, lista spesa intelligente, scadenze e attività domestiche.</p>
+                        <h3 class="text-xl sm:text-2xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Gestione Casa</h3>
+                        <p class="text-slate-500 text-xs sm:text-sm mt-2 leading-relaxed">
+                            Gestisci l'inventario prodotti, lista della spesa intelligente, scadenze di manutenzione e lista attività quotidiane.
+                        </p>
+                        
+                        <div class="mt-4 sm:mt-6 flex flex-wrap gap-1.5 sm:gap-2">
+                            <span class="inline-flex items-center text-[10px] sm:text-xs font-medium px-2 py-1 rounded-lg bg-indigo-50 text-indigo-700">
+                                <i data-lucide="boxes" class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1"></i> Inventario
+                            </span>
+                            <span class="inline-flex items-center text-[10px] sm:text-xs font-medium px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700">
+                                <i data-lucide="shopping-cart" class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1"></i> Spesa
+                            </span>
+                            <span class="inline-flex items-center text-[10px] sm:text-xs font-medium px-2 py-1 rounded-lg bg-amber-50 text-amber-700">
+                                <i data-lucide="calendar" class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1"></i> Manutenzioni
+                            </span>
+                        </div>
                     </div>
-                    <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between font-semibold text-sm text-indigo-600">
-                        <span>Accedi</span><i data-lucide="arrow-right" class="w-4 h-4"></i>
+
+                    <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-slate-100 flex items-center justify-between font-semibold text-xs sm:text-sm text-indigo-600 group-hover:translate-x-1 transition-transform">
+                        <span>Accedi a Gestione Casa</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </div>
                 </div>
 
-                <div onclick="showView('finanze')" class="group bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between">
+                <!-- Card Finanze -->
+                <div onclick="showView('finanze')" class="group bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between">
+                    <div class="absolute -right-8 -top-8 w-36 h-36 bg-emerald-50 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
                     <div>
-                        <div class="w-14 h-14 bg-emerald-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-200 mb-6 group-hover:scale-110 transition-transform">
-                            <i data-lucide="trending-up" class="w-7 h-7"></i>
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-emerald-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-200 mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+                            <i data-lucide="trending-up" class="w-6 h-6 sm:w-7 sm:h-7"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">Finanze</h3>
-                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">Entrate, uscite, spese fisse ricorrenti e panoramica contabile.</p>
+                        <h3 class="text-xl sm:text-2xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">Finanze</h3>
+                        <p class="text-slate-500 text-xs sm:text-sm mt-2 leading-relaxed">
+                            Registra entrate e uscite, imposta spese fisse ricorrenti con la durata e monitora la crescita degli investimenti con grafico integrato.
+                        </p>
+
+                        <div class="mt-4 sm:mt-6 flex flex-wrap gap-1.5 sm:gap-2">
+                            <span class="inline-flex items-center text-[10px] sm:text-xs font-medium px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700">
+                                <i data-lucide="arrow-up-right" class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1"></i> Ingressi/Uscite
+                            </span>
+                            <span class="inline-flex items-center text-[10px] sm:text-xs font-medium px-2 py-1 rounded-lg bg-blue-50 text-blue-700">
+                                <i data-lucide="repeat" class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1"></i> Spese Fisse
+                            </span>
+                            <span class="inline-flex items-center text-[10px] sm:text-xs font-medium px-2 py-1 rounded-lg bg-purple-50 text-purple-700">
+                                <i data-lucide="line-chart" class="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1"></i> Investimenti
+                            </span>
+                        </div>
                     </div>
-                    <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between font-semibold text-sm text-emerald-600">
-                        <span>Accedi</span><i data-lucide="arrow-right" class="w-4 h-4"></i>
+
+                    <div class="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-slate-100 flex items-center justify-between font-semibold text-xs sm:text-sm text-emerald-600 group-hover:translate-x-1 transition-transform">
+                        <span>Accedi a Finanze</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </div>
                 </div>
             </div>
         </section>
+
 
         <!-- ================= VIEW 1: GESTIONE CASA ================= -->
-        <section id="view-casa" class="space-y-8 hidden">
-            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <section id="view-casa" class="space-y-6 hidden">
+            <!-- Breadcrumb -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-2">
                 <button onclick="showView('hub')" class="inline-flex items-center text-xs font-medium text-slate-500 hover:text-indigo-600 transition">
-                    <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i> Torna alla Selezione Principale
+                    <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i> Torna alla Selezione
                 </button>
-                <span class="text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">Area Gestione Casa</span>
+                <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100 self-start sm:self-auto">
+                    Area Gestione Casa
+                </span>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Inventario -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- 1. INVENTARIO PRODOTTI -->
+                <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center justify-between mb-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
                             <div>
-                                <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="boxes" class="w-5 h-5 text-indigo-600"></i> Inventario Casa</h3>
-                                <p class="text-xs text-slate-500">Gestisci le giacenze</p>
+                                <h3 class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="boxes" class="w-5 h-5 text-indigo-600"></i> Inventario Casa
+                                </h3>
+                                <p class="text-[11px] sm:text-xs text-slate-500">Gestisci giacenze e auto-inserimento spesa a 0</p>
                             </div>
-                            <button onclick="openModal('inventory-modal')" class="inline-flex items-center space-x-1 text-xs bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold px-3 py-1.5 rounded-xl transition">
-                                <i data-lucide="plus" class="w-4 h-4"></i><span>Nuovo Articolo</span>
+                            <button onclick="openModal('inventory-modal')" class="inline-flex items-center justify-center space-x-1 text-xs bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-semibold px-3 py-2 rounded-xl transition">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Nuovo Articolo</span>
                             </button>
                         </div>
+
+                        <!-- Barra di Ricerca Inventario -->
                         <div class="mb-3">
-                            <input id="inventory-search" type="text" oninput="renderInventory()" placeholder="🔍 Cerca nell'inventario..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs outline-none">
+                            <input id="inventory-search" type="text" oninput="renderInventory()" placeholder="🔍 Cerca nell'inventario..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
                         </div>
-                        <div id="inventory-list" class="space-y-3 max-h-[320px] overflow-y-auto pr-1"></div>
+
+                        <!-- Inventory List -->
+                        <div id="inventory-list" class="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
+                            <!-- Items populated dynamically via JS -->
+                        </div>
                     </div>
-                    <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-400 flex justify-between">
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-400 flex justify-between">
                         <span id="inventory-count-text">0 articoli salvati</span>
+                        <span>Usa + e -</span>
                     </div>
                 </div>
 
-                <!-- Lista della Spesa -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                <!-- 2. LISTA DELLA SPESA -->
+                <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center justify-between mb-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-2">
                             <div>
-                                <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="shopping-cart" class="w-5 h-5 text-emerald-600"></i> Lista della Spesa</h3>
-                                <p class="text-xs text-slate-500">I prodotti acquistati si spostano nell'inventario</p>
+                                <h3 class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="shopping-cart" class="w-5 h-5 text-emerald-600"></i> Lista della Spesa
+                                </h3>
+                                <p class="text-[11px] sm:text-xs text-slate-500">I prodotti spuntati si spostano nell'inventario</p>
                             </div>
-                            <button onclick="openModal('shopping-modal')" class="inline-flex items-center space-x-1 text-xs bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-semibold px-3 py-1.5 rounded-xl transition">
-                                <i data-lucide="plus" class="w-4 h-4"></i><span>Aggiungi</span>
+                            <button onclick="openModal('shopping-modal')" class="inline-flex items-center justify-center space-x-1 text-xs bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-semibold px-3 py-2 rounded-xl transition">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Aggiungi Spesa</span>
                             </button>
                         </div>
-                        <div id="shopping-list" class="space-y-2.5 max-h-[360px] overflow-y-auto pr-1"></div>
+
+                        <!-- Shopping Items List -->
+                        <div id="shopping-list" class="space-y-2.5 max-h-[320px] overflow-y-auto pr-1">
+                            <!-- Items populated dynamically via JS -->
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100 flex items-center gap-1.5">
+                        <i data-lucide="info" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                        <span>Clicca sulla spunta dell'articolo quando lo acquisti.</span>
                     </div>
                 </div>
 
-                <!-- Scadenze -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center justify-between mb-3">
+                <!-- 3. CALENDARIO SCADENZE & MANUTENZIONE -->
+                <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
                         <div>
-                            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="calendar" class="w-5 h-5 text-amber-500"></i> Scadenze e Manutenzioni</h3>
+                            <h3 class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                                <i data-lucide="calendar" class="w-5 h-5 text-amber-500"></i> Scadenze & Manutenzioni
+                            </h3>
+                            <p class="text-[11px] sm:text-xs text-slate-500">Controlli, filtri, garanzie o revisioni</p>
                         </div>
-                        <button onclick="openModal('maintenance-modal')" class="inline-flex items-center space-x-1 text-xs bg-amber-50 text-amber-700 font-semibold px-3 py-1.5 rounded-xl transition">
-                            <i data-lucide="plus" class="w-4 h-4"></i><span>Aggiungi</span>
+                        <button onclick="openModal('maintenance-modal')" class="inline-flex items-center justify-center space-x-1 text-xs bg-amber-50 text-amber-700 hover:bg-amber-100 font-semibold px-3 py-2 rounded-xl transition">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>Aggiungi</span>
                         </button>
                     </div>
-                    <div id="maintenance-list" class="space-y-3 max-h-[300px] overflow-y-auto pr-1"></div>
+
+                    <!-- Barra di Ricerca Scadenze -->
+                    <div class="mb-3">
+                        <input id="maintenance-search" type="text" oninput="renderMaintenance()" placeholder="🔍 Cerca nelle scadenze..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+
+                    <div id="maintenance-list" class="space-y-2.5 max-h-[260px] overflow-y-auto pr-1">
+                        <!-- Maintenance items dynamically loaded -->
+                    </div>
                 </div>
 
-                <!-- Attività Casa -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center justify-between mb-4">
+                <!-- 4. LISTA ATTIVITÀ (TO-DO CASA) -->
+                <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-2">
                         <div>
-                            <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2"><i data-lucide="check-square" class="w-5 h-5 text-purple-600"></i> Lista Attività Casa</h3>
+                            <h3 class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                                <i data-lucide="check-square" class="w-5 h-5 text-purple-600"></i> Attività Casa
+                            </h3>
+                            <p class="text-[11px] sm:text-xs text-slate-500">Mansioni ordinarie con ricreazione automatica</p>
                         </div>
-                        <button onclick="openModal('task-modal')" class="inline-flex items-center space-x-1 text-xs bg-purple-50 text-purple-700 font-semibold px-3 py-1.5 rounded-xl transition">
-                            <i data-lucide="plus" class="w-4 h-4"></i><span>Nuova Mansione</span>
+                        <button onclick="openModal('task-modal')" class="inline-flex items-center justify-center space-x-1 text-xs bg-purple-50 text-purple-700 hover:bg-purple-100 font-semibold px-3 py-2 rounded-xl transition">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>Nuova Mansione</span>
                         </button>
                     </div>
-                    <div id="tasks-list" class="space-y-2.5 max-h-[320px] overflow-y-auto pr-1"></div>
+
+                    <div id="tasks-list" class="space-y-2.5 max-h-[280px] overflow-y-auto pr-1">
+                        <!-- Tasks dynamically loaded -->
+                    </div>
                 </div>
+
             </div>
         </section>
 
+
         <!-- ================= VIEW 2: FINANZE ================= -->
-        <section id="view-finanze" class="space-y-8 hidden">
-            <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <section id="view-finanze" class="space-y-6 hidden">
+            <!-- Breadcrumb -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-3 gap-2">
                 <button onclick="showView('hub')" class="inline-flex items-center text-xs font-medium text-slate-500 hover:text-indigo-600 transition">
-                    <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i> Torna alla Selezione Principale
+                    <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i> Torna alla Selezione
                 </button>
-                <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">Area Finanze</span>
+                <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 self-start sm:self-auto">
+                    Area Finanze
+                </span>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <p class="text-xs font-semibold text-slate-400 uppercase">Saldo Cassa Totale</p>
-                    <h3 id="stat-total-balance" class="text-2xl font-bold text-slate-900 mt-1">€ 0,00</h3>
+            <!-- Dashboard Summary Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Saldo Cassa Totale</p>
+                    <h3 id="stat-total-balance" class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">€ 0,00</h3>
+                    <p class="text-[11px] text-emerald-600 mt-1.5 font-medium flex items-center">
+                        <i data-lucide="wallet" class="w-3.5 h-3.5 mr-1"></i> Disponibilità Liquida
+                    </p>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <p class="text-xs font-semibold text-slate-400 uppercase">Totale Ingressi</p>
-                    <h3 id="stat-total-incomes" class="text-2xl font-bold text-emerald-600 mt-1">+ € 0,00</h3>
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Totale Ingressi</p>
+                    <h3 id="stat-total-incomes" class="text-xl sm:text-2xl font-bold text-emerald-600 mt-1">+ € 0,00</h3>
+                    <p class="text-[11px] text-slate-400 mt-1.5">Somma entrate</p>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                    <p class="text-xs font-semibold text-slate-400 uppercase">Totale Uscite</p>
-                    <h3 id="stat-total-expenses" class="text-2xl font-bold text-rose-600 mt-1">- € 0,00</h3>
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Totale Uscite</p>
+                    <h3 id="stat-total-expenses" class="text-xl sm:text-2xl font-bold text-rose-600 mt-1">- € 0,00</h3>
+                    <p id="stat-total-expenses-sub" class="text-[11px] text-slate-400 mt-1.5">Include fisse e singole</p>
                 </div>
             </div>
 
-            <!-- Grafico Entrate/Uscite -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                    <h3 class="font-bold text-lg text-slate-900"><i data-lucide="pie-chart" class="w-5 h-5 text-indigo-600 inline"></i> Confronto Entrate vs Uscite</h3>
+            <!-- GRAFICO CONFRONTO ENTRATE VS USCITE -->
+            <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                    <div>
+                        <h3 class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                            <i data-lucide="pie-chart" class="w-5 h-5 text-indigo-600"></i> Entrate vs Uscite
+                        </h3>
+                        <p class="text-[11px] sm:text-xs text-slate-500">Valuta il tuo bilancio (comprese spese fisse)</p>
+                    </div>
                     <div id="compare-verdict-badge"></div>
                 </div>
-                <div class="h-60 w-full flex items-center justify-center">
+                <div class="h-56 sm:h-60 w-full flex items-center justify-center">
                     <canvas id="compareChart"></canvas>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Transazioni -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                    <form onsubmit="handleTransactionSubmit(event)" class="space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
+            <!-- REGISTRAZIONE INGRESSI / USCITE & SPESE FISSE -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Form & Transactions Log -->
+                <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                    <div class="border-b border-slate-100 pb-3">
+                        <h3 class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                            <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-600"></i> Registra Movimento
+                        </h3>
+                        <p class="text-[11px] sm:text-xs text-slate-500">Aggiungi una transazione singola</p>
+                    </div>
+
+                    <form onsubmit="handleTransactionSubmit(event)" class="space-y-3.5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Tipo</label>
-                                <select id="tx-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none">
-                                    <option value="expense">Uscita</option>
-                                    <option value="income">Entrata</option>
+                                <label class="block text-xs font-medium text-slate-700 mb-1">Tipo Movimento</label>
+                                <select id="tx-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                                    <option value="expense">Uscita (Spesa)</option>
+                                    <option value="income">Ingresso (Entrata)</option>
                                 </select>
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Importo (€)</label>
-                                <input id="tx-amount" type="number" step="0.01" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none">
+                                <input id="tx-amount" type="number" step="0.01" placeholder="es. 45.00" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Descrizione</label>
-                                <input id="tx-desc" type="text" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none">
+                                <input id="tx-desc" type="text" placeholder="es. Supermercato" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                             </div>
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Data</label>
-                                <input id="tx-date" type="date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm outline-none">
+                                <input id="tx-date" type="date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                             </div>
                         </div>
-                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl text-sm transition">Registra Movimento</button>
+
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition shadow-md shadow-indigo-100 flex items-center justify-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4"></i> Registra Movimento
+                        </button>
                     </form>
-                    <div id="transactions-list" class="space-y-2 max-h-[260px] overflow-y-auto"></div>
+
+                    <!-- Recent Transactions History -->
+                    <div class="pt-3 border-t border-slate-100">
+                        <h4 class="font-semibold text-xs sm:text-sm text-slate-800 mb-2.5">Storico Movimenti</h4>
+                        <div id="transactions-list" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                            <!-- Dynamic items -->
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Spese Fisse -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <form onsubmit="handleFixedExpenseSubmit(event)" class="space-y-4 mb-6 bg-slate-50 p-4 rounded-xl border">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-700 mb-1">Nome Spesa Fissa</label>
-                            <input id="fix-desc" type="text" required class="w-full bg-white border rounded-lg px-3 py-1.5 text-xs outline-none">
+                <!-- SPESE FISSE E RICORRENTI -->
+                <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="border-b border-slate-100 pb-3 mb-3">
+                            <h3 class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                                <i data-lucide="repeat" class="w-5 h-5 text-blue-600"></i> Spese Fisse & Ricorrenti
+                            </h3>
+                            <p class="text-[11px] sm:text-xs text-slate-500">Rate o abbonamenti periodici</p>
                         </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Importo (€)</label>
-                                <input id="fix-amount" type="number" step="0.01" required class="w-full bg-white border rounded-lg px-3 py-1.5 text-xs outline-none">
+
+                        <!-- Add Fixed Expense Form -->
+                        <form onsubmit="handleFixedExpenseSubmit(event)" class="space-y-3 mb-4 bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-200">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                <div>
+                                    <label class="block text-[11px] font-medium text-slate-700 mb-1">Nome Spesa Fissa</label>
+                                    <input id="fix-desc" type="text" placeholder="es. Palestra / Netflix" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-blue-500 outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-medium text-slate-700 mb-1">Importo Mensile (€)</label>
+                                    <input id="fix-amount" type="number" step="0.01" placeholder="es. 10.00" required class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-blue-500 outline-none">
+                                </div>
                             </div>
+
                             <div>
-                                <label class="block text-xs font-medium text-slate-700 mb-1">Durata</label>
-                                <select id="fix-duration" class="w-full bg-white border rounded-lg px-3 py-1.5 text-xs outline-none">
+                                <label class="block text-[11px] font-medium text-slate-700 mb-1">Durata</label>
+                                <select id="fix-duration" onchange="toggleCustomDurationInput()" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-blue-500 outline-none">
                                     <option value="forever">Per sempre</option>
-                                    <option value="12">12 Mesi</option>
-                                    <option value="24">24 Mesi</option>
+                                    <option value="1">1 Mese</option>
+                                    <option value="3">3 Mesi</option>
+                                    <option value="6">6 Mesi</option>
+                                    <option value="12">12 Mesi (1 Anno)</option>
+                                    <option value="24">24 Mesi (2 Anni)</option>
+                                    <option value="custom">Personalizzata...</option>
                                 </select>
+                                <input id="fix-custom-duration" type="number" min="1" placeholder="Numero di mesi" class="hidden mt-2 w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-blue-500 outline-none">
                             </div>
+
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg text-xs transition">
+                                + Aggiungi Spesa Ricorrente
+                            </button>
+                        </form>
+
+                        <h4 class="font-semibold text-[11px] text-slate-500 uppercase tracking-wider mb-2">Spese Fisse Attive / Terminate</h4>
+                        <div id="fixed-expenses-list" class="space-y-2 max-h-[180px] overflow-y-auto">
+                            <!-- Dynamic items -->
                         </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg text-xs">+ Spesa Ricorrente</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- INVESTIMENTI & GRAFICO ANDAMENTO -->
+            <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                    <div>
+                        <h3 class="font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+                            <i data-lucide="line-chart" class="w-5 h-5 text-purple-600"></i> Portafoglio Investimenti
+                        </h3>
+                        <p class="text-[11px] sm:text-xs text-slate-500">Aggiorna il valore per tracciare l'andamento nel tempo</p>
+                    </div>
+
+                    <!-- Input per nuovo valore investimenti -->
+                    <form onsubmit="handleInvestmentUpdate(event)" class="flex items-center gap-2 w-full lg:w-auto">
+                        <input id="inv-value" type="number" step="0.01" placeholder="Valore Totale (€)" required class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 outline-none flex-grow lg:w-44">
+                        <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-3.5 py-2 rounded-xl text-xs sm:text-sm transition shadow-md shadow-purple-100 whitespace-nowrap flex items-center gap-1 shrink-0">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Aggiorna
+                        </button>
                     </form>
-                    <div id="fixed-expenses-list" class="space-y-2 max-h-[200px] overflow-y-auto"></div>
+                </div>
+
+                <!-- Investment Line Chart -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div class="lg:col-span-2 bg-slate-50/50 p-3 sm:p-4 rounded-2xl border border-slate-100">
+                        <div class="h-60 sm:h-72 w-full">
+                            <canvas id="investmentsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Historical Investments log -->
+                    <div class="space-y-2.5">
+                        <h4 class="font-semibold text-xs sm:text-sm text-slate-800">Rilevazioni Storiche</h4>
+                        <div id="investments-history-list" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
+                            <!-- Dynamic list -->
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </section>
+
     </main>
 
-    <!-- Modals -->
-    <div id="inventory-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
-            <h3 class="font-bold text-slate-900 text-base">Nuovo Articolo Inventario</h3>
-            <form onsubmit="handleInventorySubmit(event)" class="space-y-4">
-                <input id="inv-name" type="text" placeholder="Nome Articolo" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
-                <input id="inv-qty" type="number" min="0" value="1" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
-                <select id="inv-cat" class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
-                    <option value="Dispensa">Dispensa</option><option value="Frigo">Frigo</option><option value="Pulizia">Pulizia</option>
-                </select>
-                <div class="flex justify-end space-x-2">
-                    <button type="button" onclick="closeModal('inventory-modal')" class="px-4 py-2 text-xs">Annulla</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs">Salva</button>
+    <!-- ================= MODALS POP-UP ================= -->
+
+    <!-- 1. MODAL INVENTARIO -->
+    <div id="inventory-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-md w-full p-4 sm:p-6 space-y-4 mx-2">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <i data-lucide="boxes" class="w-5 h-5 text-indigo-600"></i> Nuovo Articolo Inventario
+                </h3>
+                <button onclick="closeModal('inventory-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <form onsubmit="handleInventorySubmit(event)" class="space-y-3.5">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nome Articolo</label>
+                    <input id="inv-name" type="text" placeholder="es. Caffè in Grani" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Quantità Iniziale</label>
+                        <input id="inv-qty" type="number" min="0" value="1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Categoria</label>
+                        <select id="inv-cat" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="Dispensa">Dispensa</option>
+                            <option value="Frigo">Frigo</option>
+                            <option value="Freezer">Freezer</option>
+                            <option value="Pulizia">Pulizia</option>
+                            <option value="Bagno">Bagno</option>
+                            <option value="Altro">Altro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-1">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input id="inv-autorestock" type="checkbox" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+                        <span class="text-xs text-slate-600 font-medium">Auto-inserimento in spesa se arriva a 0</span>
+                    </label>
+                </div>
+
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('inventory-modal')" class="px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-100 transition">Annulla</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold transition shadow-md shadow-indigo-100">Salva Articolo</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="shopping-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
-            <h3 class="font-bold text-slate-900 text-base">Aggiungi alla Spesa</h3>
-            <form onsubmit="handleShoppingSubmit(event)" class="space-y-4">
-                <input id="shop-name" type="text" placeholder="Prodotto" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
-                <input id="shop-qty" type="number" min="1" value="1" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
-                <div class="flex justify-end space-x-2">
-                    <button type="button" onclick="closeModal('shopping-modal')" class="px-4 py-2 text-xs">Annulla</button>
-                    <button type="submit" class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs">Aggiungi</button>
+    <!-- 2. MODAL LISTA DELLA SPESA -->
+    <div id="shopping-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-md w-full p-4 sm:p-6 space-y-4 mx-2">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <i data-lucide="shopping-cart" class="w-5 h-5 text-emerald-600"></i> Aggiungi alla Spesa
+                </h3>
+                <button onclick="closeModal('shopping-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <form onsubmit="handleShoppingSubmit(event)" class="space-y-3.5">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Prodotto da Comprare</label>
+                    <input id="shop-name" type="text" placeholder="es. Pasta 500g" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Quantità</label>
+                    <input id="shop-qty" type="number" min="1" value="1" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('shopping-modal')" class="px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-100 transition">Annulla</button>
+                    <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold transition shadow-md shadow-emerald-100">Aggiungi in Lista</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="maintenance-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
-            <h3 class="font-bold text-slate-900 text-base">Nuova Scadenza</h3>
-            <form onsubmit="handleMaintenanceSubmit(event)" class="space-y-4">
-                <input id="maint-title" type="text" placeholder="Descrizione" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
-                <input id="maint-date" type="date" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
-                <select id="maint-status" class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none"><option value="Programmato">Programmato</option><option value="Urgente">Urgente</option></select>
-                <div class="flex justify-end space-x-2">
-                    <button type="button" onclick="closeModal('maintenance-modal')" class="px-4 py-2 text-xs">Annulla</button>
-                    <button type="submit" class="px-4 py-2 bg-amber-600 text-white rounded-xl text-xs">Salva</button>
+    <!-- 3. MODAL SCADENZE E MANUTENZIONI -->
+    <div id="maintenance-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-md w-full p-4 sm:p-6 space-y-4 mx-2">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <i data-lucide="calendar" class="w-5 h-5 text-amber-500"></i> Nuova Scadenza
+                </h3>
+                <button onclick="closeModal('maintenance-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <form onsubmit="handleMaintenanceSubmit(event)" class="space-y-3.5">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Descrizione Controllo / Scadenza</label>
+                    <input id="maint-title" type="text" placeholder="es. Revisione Caldaia" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Data Scadenza</label>
+                        <input id="maint-date" type="date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-amber-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Stato</label>
+                        <select id="maint-status" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-amber-500 outline-none">
+                            <option value="Programmato">Programmato</option>
+                            <option value="In scadenza">In Scadenza</option>
+                            <option value="Garanzia">Garanzia</option>
+                            <option value="Urgente">Urgente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('maintenance-modal')" class="px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-100 transition">Annulla</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-semibold transition shadow-md shadow-amber-100">Salva Scadenza</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="task-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
-            <h3 class="font-bold text-slate-900 text-base">Nuova Attività</h3>
-            <form onsubmit="handleTaskSubmit(event)" class="space-y-4">
-                <input id="task-title" type="text" placeholder="Mansione" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
-                <input id="task-date" type="date" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none">
-                <select id="task-recurrence" class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-sm outline-none"><option value="none">Singola</option><option value="weekly">Settimanale</option></select>
-                <div class="flex justify-end space-x-2">
-                    <button type="button" onclick="closeModal('task-modal')" class="px-4 py-2 text-xs">Annulla</button>
-                    <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-xl text-xs">Salva</button>
+    <!-- 4. MODAL ATTIVITÀ / MANSIONE CASA -->
+    <div id="task-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-md w-full p-4 sm:p-6 space-y-4 mx-2">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <i data-lucide="check-square" class="w-5 h-5 text-purple-600"></i> Nuova Attività Casa
+                </h3>
+                <button onclick="closeModal('task-modal')" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <form onsubmit="handleTaskSubmit(event)" class="space-y-3.5">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nome Mansione</label>
+                    <input id="task-title" type="text" placeholder="es. Annaffiare piante" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 outline-none">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Data Esecuzione</label>
+                        <input id="task-date" type="date" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-purple-500 outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Ricorrenza</label>
+                        <select id="task-recurrence" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-purple-500 outline-none">
+                            <option value="none">Nessuna</option>
+                            <option value="daily">Giornaliera</option>
+                            <option value="weekly">Settimanale</option>
+                            <option value="monthly">Mensile</option>
+                            <option value="yearly">Annuale</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('task-modal')" class="px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 hover:bg-slate-100 transition">Annulla</button>
+                    <button type="submit" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-semibold transition shadow-md shadow-purple-100">Salva Mansione</button>
                 </div>
             </form>
         </div>
     </div>
 
+
+    <!-- JavaScript Application Logic -->
     <script>
-        let inventory = [], shoppingList = [], maintenance = [], tasks = [], transactions = [], fixedExpenses = [];
+        // GLOBAL DATA STORES
+        let inventory = [
+            { id: 1, name: 'Caffè in Grani', qty: 2, category: 'Dispensa', autoRestock: true },
+            { id: 2, name: 'Latte Pieno', qty: 4, category: 'Frigo', autoRestock: false },
+            { id: 3, name: 'Detersivo Piatti', qty: 1, category: 'Pulizia', autoRestock: true }
+        ];
+
+        let shoppingList = [
+            { id: 101, name: 'Pasta Barilla 500g', qty: 1 },
+            { id: 102, name: 'Acqua Naturale 6x', qty: 2 }
+        ];
+
+        let maintenance = [
+            { id: 201, title: 'Controllo Caldaia e Filtri', date: '2026-10-15', status: 'In scadenza' },
+            { id: 202, title: 'Pulizia Filtro Condizionatore', date: '2026-11-01', status: 'Programmato' }
+        ];
+
+        let tasks = [
+            { id: 301, title: 'Annaffiare piante terrazzo', date: '2026-09-23', recurrence: 'weekly', done: false },
+            { id: 302, title: 'Cambiare asciugamani bagno', date: '2026-09-20', recurrence: 'none', done: true }
+        ];
+
+        let transactions = [
+            { id: 401, desc: 'Stipendio Mese', amount: 2500, type: 'income', date: '2026-09-01' },
+            { id: 402, desc: 'Spesa Esselunga', amount: 85.50, type: 'expense', date: '2026-09-10' }
+        ];
+
+        let fixedExpenses = [
+            { id: 501, desc: 'Abbonamento Palestra', amount: 45, monthsTotal: 12, startDate: '2026-01-01' },
+            { id: 502, desc: 'Streaming TV', amount: 10, monthsTotal: null, startDate: '2026-01-01' }
+        ];
+
+        let investmentHistory = [
+            { id: 601, date: '2026-01-15', value: 5000 },
+            { id: 602, date: '2026-03-20', value: 5400 },
+            { id: 603, date: '2026-06-10', value: 5250 },
+            { id: 604, date: '2026-08-01', value: 6100 },
+            { id: 605, date: '2026-09-20', value: 6450 }
+        ];
+
+        let chartInstance = null;
         let compareChartInstance = null;
 
+        // INIT & VIEW SWITCHING
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date().toISOString().split('T')[0];
-            ['tx-date', 'task-date', 'maint-date'].forEach(id => {
-                if(document.getElementById(id)) document.getElementById(id).value = today;
-            });
-            loadFromLocalStorage();
+            if(document.getElementById('tx-date')) document.getElementById('tx-date').value = today;
+            if(document.getElementById('task-date')) document.getElementById('task-date').value = today;
+            if(document.getElementById('maint-date')) document.getElementById('maint-date').value = today;
+
             renderAll();
             lucide.createIcons();
         });
 
-        // Gestione della memoria locale (LocalStorage)
-        function saveToLocalStorage() {
-            localStorage.setItem('hf_inventory', JSON.stringify(inventory));
-            localStorage.setItem('hf_shopping', JSON.stringify(shoppingList));
-            localStorage.setItem('hf_maintenance', JSON.stringify(maintenance));
-            localStorage.setItem('hf_tasks', JSON.stringify(tasks));
-            localStorage.setItem('hf_transactions', JSON.stringify(transactions));
-            localStorage.setItem('hf_fixed', JSON.stringify(fixedExpenses));
+        // MODAL HELPERS
+        function openModal(modalId) {
+            const el = document.getElementById(modalId);
+            if(el) el.classList.remove('hidden');
         }
 
-        function loadFromLocalStorage() {
-            inventory = JSON.parse(localStorage.getItem('hf_inventory')) || [];
-            shoppingList = JSON.parse(localStorage.getItem('hf_shopping')) || [];
-            maintenance = JSON.parse(localStorage.getItem('hf_maintenance')) || [];
-            tasks = JSON.parse(localStorage.getItem('hf_tasks')) || [];
-            transactions = JSON.parse(localStorage.getItem('hf_transactions')) || [];
-            fixedExpenses = JSON.parse(localStorage.getItem('hf_fixed')) || [];
+        function closeModal(modalId) {
+            const el = document.getElementById(modalId);
+            if(el) el.classList.add('hidden');
         }
-
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
         function showView(viewName) {
-            ['view-hub', 'view-casa', 'view-finanze'].forEach(v => document.getElementById(v).classList.add('hidden'));
-            document.getElementById('view-' + viewName).classList.remove('hidden');
-            if (viewName === 'finanze') renderCompareChart();
+            const views = {
+                hub: document.getElementById('view-hub'),
+                casa: document.getElementById('view-casa'),
+                finanze: document.getElementById('view-finanze')
+            };
+
+            const navBtns = {
+                hub: document.getElementById('nav-btn-hub'),
+                casa: document.getElementById('nav-btn-casa'),
+                finanze: document.getElementById('nav-btn-finanze')
+            };
+
+            const activeClass = "flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-lg bg-white text-indigo-600 shadow-sm border border-slate-200/50 whitespace-nowrap";
+            const inactiveClass = "flex items-center space-x-1 px-2.5 sm:px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-200/50 whitespace-nowrap";
+
+            Object.keys(views).forEach(key => views[key].classList.add('hidden'));
+            Object.keys(navBtns).forEach(key => navBtns[key].className = inactiveClass);
+
+            if (views[viewName]) {
+                views[viewName].classList.remove('hidden');
+                navBtns[viewName].className = activeClass;
+            }
+
+            if (viewName === 'finanze') {
+                renderInvestmentsChart();
+                renderCompareChart();
+            }
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function renderAll() {
-            renderInventory(); 
-            renderShoppingList(); 
+            renderInventory();
+            renderShoppingList();
             renderMaintenance();
-            renderTasks(); 
-            renderTransactions(); 
+            renderTasks();
+            renderTransactions();
             renderFixedExpenses();
-            updateFinancialStats();
+            renderInvestmentsHistory();
         }
 
-        // --- INVENTARIO ---
+        // ================= GESTIONE CASA LOGIC =================
         function renderInventory() {
             const list = document.getElementById('inventory-list');
             list.innerHTML = '';
+
             const query = document.getElementById('inventory-search')?.value.toLowerCase().trim() || '';
-            inventory.filter(i => i.name.toLowerCase().includes(query)).forEach(item => {
-                const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
-                el.innerHTML = `
-                    <div><p class="font-semibold">${item.name}</p><span class="text-[10px] text-slate-400">${item.category || ''}</span></div>
-                    <div class="flex items-center space-x-2">
-                        <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-white border rounded font-bold">-</button>
-                        <span class="w-6 text-center font-bold">${item.qty}</span>
-                        <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-indigo-600 text-white rounded font-bold">+</button>
-                        <button onclick="deleteItem('inventory', ${item.id})" class="text-slate-300 hover:text-rose-500 ml-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                    </div>`;
-                list.appendChild(el);
-            });
+            const filtered = inventory.filter(item => 
+                item.name.toLowerCase().includes(query) || 
+                (item.category && item.category.toLowerCase().includes(query))
+            );
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center">Nessun articolo trovato.</p>`;
+            } else {
+                filtered.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'flex flex-col sm:flex-row sm:items-center justify-between p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-100 gap-2';
+                    el.innerHTML = `
+                        <div>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-800">${item.name}</p>
+                            <span class="text-[9px] sm:text-[10px] font-medium text-slate-400 uppercase tracking-wider">${item.category || 'Casa'}</span>
+                        </div>
+                        <div class="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-3">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" ${item.autoRestock ? 'checked' : ''} onchange="toggleAutoRestock(${item.id})" class="sr-only peer">
+                                <div class="w-7 h-4 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-indigo-600"></div>
+                                <span class="ml-1 text-[9px] sm:text-[10px] font-medium text-slate-500">Auto Spesa</span>
+                            </label>
+
+                            <div class="flex items-center space-x-1 bg-white border border-slate-200 rounded-lg p-0.5">
+                                <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 rounded bg-slate-50 text-slate-600 hover:bg-slate-100 flex items-center justify-center font-bold text-xs transition">-</button>
+                                <span class="w-6 text-center font-bold text-xs text-slate-800">${item.qty}</span>
+                                <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 rounded bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center font-bold text-xs transition">+</button>
+                            </div>
+
+                            <button onclick="deleteInventoryItem(${item.id})" class="text-slate-300 hover:text-rose-500 transition p-1">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    `;
+                    list.appendChild(el);
+                });
+            }
             document.getElementById('inventory-count-text').innerText = `${inventory.length} articoli totali`;
             lucide.createIcons();
+        }
+
+        function toggleAutoRestock(id) {
+            const item = inventory.find(i => i.id === id);
+            if (item) item.autoRestock = !item.autoRestock;
         }
 
         function changeQty(id, delta) {
             const item = inventory.find(i => i.id === id);
             if (item) {
-                item.qty = Math.max(0, item.qty + delta);
-                saveToLocalStorage();
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    item.qty = 0;
+                    if (item.autoRestock) {
+                        const existingInShopping = shoppingList.find(s => s.name.toLowerCase() === item.name.toLowerCase());
+                        if (!existingInShopping) {
+                            shoppingList.push({ id: Date.now(), name: item.name, qty: 1 });
+                            renderShoppingList();
+                        }
+                    }
+                }
                 renderInventory();
             }
         }
 
         function handleInventorySubmit(e) {
             e.preventDefault();
-            const newItem = { 
-                id: Date.now(), 
-                name: document.getElementById('inv-name').value, 
-                qty: parseInt(document.getElementById('inv-qty').value) || 1, 
-                category: document.getElementById('inv-cat').value 
-            };
-            inventory.push(newItem);
-            saveToLocalStorage();
-            closeModal('inventory-modal'); 
-            renderAll();
+            const name = document.getElementById('inv-name').value;
+            const qty = parseInt(document.getElementById('inv-qty').value) || 1;
+            const category = document.getElementById('inv-cat').value;
+            const autoRestock = document.getElementById('inv-autorestock').checked;
+
+            if (name) {
+                inventory.push({ id: Date.now(), name: name.trim(), qty, category, autoRestock });
+                document.getElementById('inv-name').value = '';
+                document.getElementById('inv-qty').value = '1';
+                document.getElementById('inv-autorestock').checked = false;
+                closeModal('inventory-modal');
+                renderInventory();
+            }
         }
 
-        // --- LISTA DELLA SPESA ---
+        function deleteInventoryItem(id) {
+            inventory = inventory.filter(i => i.id !== id);
+            renderInventory();
+        }
+
+        // SHOPPING LIST
         function renderShoppingList() {
             const list = document.getElementById('shopping-list');
             list.innerHTML = '';
-            shoppingList.forEach(item => {
-                const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
-                el.innerHTML = `
-                    <div class="flex items-center space-x-2">
-                        <button onclick="purchaseItem(${item.id})" class="w-5 h-5 border-2 border-emerald-500 rounded flex items-center justify-center text-emerald-600 hover:bg-emerald-500 hover:text-white transition"><i data-lucide="check" class="w-3 h-3"></i></button>
-                        <span class="font-medium">${item.name} (${item.qty})</span>
-                    </div>
-                    <button onclick="deleteItem('shopping', ${item.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="x" class="w-4 h-4"></i></button>`;
-                list.appendChild(el);
-            });
+
+            if (shoppingList.length === 0) {
+                list.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center">Nessun articolo da acquistare.</p>`;
+            } else {
+                shoppingList.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center justify-between p-2.5 sm:p-3 rounded-xl border border-slate-100 bg-slate-50';
+                    el.innerHTML = `
+                        <div class="flex items-center space-x-2.5">
+                            <button onclick="purchasedShoppingItem(${item.id})" title="Spunta per acquistare" class="w-5 h-5 sm:w-6 sm:h-6 rounded-lg border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-white flex items-center justify-center transition shrink-0">
+                                <i data-lucide="check" class="w-3 h-3 sm:w-3.5 sm:h-3.5"></i>
+                            </button>
+                            <span class="text-xs sm:text-sm font-medium text-slate-800">${item.name}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="flex items-center space-x-1 bg-white border border-slate-200 rounded-lg p-0.5">
+                                <button onclick="changeShoppingQty(${item.id}, -1)" class="w-6 h-6 rounded bg-slate-50 text-slate-600 hover:bg-slate-100 flex items-center justify-center font-bold text-xs transition">-</button>
+                                <span class="w-5 text-center font-bold text-xs text-slate-800">${item.qty || 1}</span>
+                                <button onclick="changeShoppingQty(${item.id}, 1)" class="w-6 h-6 rounded bg-emerald-600 text-white hover:bg-emerald-700 flex items-center justify-center font-bold text-xs transition">+</button>
+                            </div>
+                            <button onclick="deleteShoppingItem(${item.id})" class="text-slate-300 hover:text-rose-500 transition p-1">
+                                <i data-lucide="x" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    `;
+                    list.appendChild(el);
+                });
+            }
             lucide.createIcons();
+        }
+
+        function changeShoppingQty(id, delta) {
+            const item = shoppingList.find(i => i.id === id);
+            if (item) {
+                item.qty = (item.qty || 1) + delta;
+                if (item.qty < 1) item.qty = 1;
+                renderShoppingList();
+            }
         }
 
         function handleShoppingSubmit(e) {
             e.preventDefault();
-            const newItem = { 
-                id: Date.now(), 
-                name: document.getElementById('shop-name').value, 
-                qty: parseInt(document.getElementById('shop-qty').value) || 1 
-            };
-            shoppingList.push(newItem);
-            saveToLocalStorage();
-            closeModal('shopping-modal'); 
-            renderAll();
-        }
+            const name = document.getElementById('shop-name').value;
+            const qty = parseInt(document.getElementById('shop-qty').value) || 1;
 
-        function purchaseItem(id) {
-            const item = shoppingList.find(s => s.id === id);
-            if (item) {
-                inventory.push({ id: Date.now(), name: item.name, qty: item.qty, category: 'Acquistato' });
-                shoppingList = shoppingList.filter(s => s.id !== id);
-                saveToLocalStorage();
-                renderAll();
+            if (name) {
+                shoppingList.push({ id: Date.now(), name: name.trim(), qty });
+                document.getElementById('shop-name').value = '';
+                document.getElementById('shop-qty').value = '1';
+                closeModal('shopping-modal');
+                renderShoppingList();
             }
         }
 
-        // --- SCADENZE ---
+        function purchasedShoppingItem(id) {
+            const item = shoppingList.find(i => i.id === id);
+            if (item) {
+                const itemQty = item.qty || 1;
+                const existing = inventory.find(i => i.name.toLowerCase() === item.name.toLowerCase());
+                if (existing) {
+                    existing.qty += itemQty;
+                } else {
+                    inventory.push({ id: Date.now(), name: item.name, qty: itemQty, category: 'Acquistato', autoRestock: false });
+                }
+                shoppingList = shoppingList.filter(i => i.id !== id);
+                renderShoppingList();
+                renderInventory();
+            }
+        }
+
+        function deleteShoppingItem(id) {
+            shoppingList = shoppingList.filter(i => i.id !== id);
+            renderShoppingList();
+        }
+
+        // MAINTENANCE & TASKS
         function renderMaintenance() {
             const list = document.getElementById('maintenance-list');
             list.innerHTML = '';
-            maintenance.forEach(m => {
-                const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
-                el.innerHTML = `<div><p class="font-semibold">${m.title}</p><span class="text-slate-400">Scadenza: ${m.date}</span></div>
-                    <button onclick="deleteItem('maintenance', ${m.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
-                list.appendChild(el);
-            });
+
+            const query = document.getElementById('maintenance-search')?.value.toLowerCase().trim() || '';
+            const filtered = maintenance.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                (item.status && item.status.toLowerCase().includes(query))
+            );
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center">Nessuna scadenza trovata.</p>`;
+            } else {
+                filtered.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center justify-between p-2.5 sm:p-3 rounded-xl border border-slate-100 bg-slate-50 gap-2';
+                    el.innerHTML = `
+                        <div>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-800">${item.title}</p>
+                            <p class-[11px] text-slate-400">${item.date}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 font-medium border border-amber-100">${item.status}</span>
+                            <button onclick="deleteMaintenance(${item.id})" class="text-slate-300 hover:text-rose-500 transition p-1">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    `;
+                    list.appendChild(el);
+                });
+            }
             lucide.createIcons();
         }
 
         function handleMaintenanceSubmit(e) {
             e.preventDefault();
-            const data = { 
-                id: Date.now(), 
-                title: document.getElementById('maint-title').value, 
-                date: document.getElementById('maint-date').value, 
-                status: document.getElementById('maint-status').value 
-            };
-            maintenance.push(data);
-            saveToLocalStorage();
-            closeModal('maintenance-modal'); 
-            renderAll();
+            const title = document.getElementById('maint-title').value;
+            const date = document.getElementById('maint-date').value;
+            const status = document.getElementById('maint-status').value;
+
+            if (title) {
+                maintenance.push({ id: Date.now(), title: title.trim(), date: date || new Date().toISOString().split('T')[0], status: status || 'Programmato' });
+                document.getElementById('maint-title').value = '';
+                closeModal('maintenance-modal');
+                renderMaintenance();
+            }
         }
 
-        // --- ATTIVITA' CASA ---
+        function deleteMaintenance(id) {
+            maintenance = maintenance.filter(m => m.id !== id);
+            renderMaintenance();
+        }
+
+        const recurrenceLabels = { 'none': 'Singola', 'daily': 'Giornaliera', 'weekly': 'Settimanale', 'monthly': 'Mensile', 'yearly': 'Annuale' };
+
         function renderTasks() {
             const list = document.getElementById('tasks-list');
             list.innerHTML = '';
-            tasks.forEach(t => {
+
+            if (tasks.length === 0) {
+                list.innerHTML = `<p class="text-xs text-slate-400 py-4 text-center">Nessuna attività in lista.</p>`;
+                return;
+            }
+
+            tasks.forEach(item => {
+                const recText = recurrenceLabels[item.recurrence] || 'Singola';
+                const hasRecurrence = item.recurrence && item.recurrence !== 'none';
+
                 const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
-                el.innerHTML = `<div><p class="font-semibold">${t.title}</p><span class="text-slate-400">Data: ${t.date}</span></div>
-                    <button onclick="deleteItem('tasks', ${t.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
+                el.className = 'flex items-center justify-between p-2.5 sm:p-3 rounded-xl border border-slate-100 bg-slate-50 gap-2';
+                el.innerHTML = `
+                    <div class="flex items-center space-x-2.5 overflow-hidden">
+                        <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleTask(${item.id})" class="w-4 h-4 text-purple-600 rounded border-slate-300 focus:ring-purple-500 cursor-pointer shrink-0">
+                        <div class="overflow-hidden">
+                            <span class="text-xs sm:text-sm font-medium block truncate ${item.done ? 'line-through text-slate-400' : 'text-slate-800'}">${item.title}</span>
+                            <div class="flex items-center gap-2 mt-0.5">
+                                <span class="text-[10px] text-slate-400 flex items-center gap-1">
+                                    <i data-lucide="calendar" class="w-3 h-3"></i> ${item.date || 'Senza data'}
+                                </span>
+                                ${hasRecurrence ? `
+                                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-50 text-purple-600 font-semibold border border-purple-100 flex items-center gap-0.5">
+                                        <i data-lucide="repeat" class="w-2.5 h-2.5"></i> ${recText}
+                                    </span>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="deleteTask(${item.id})" class="text-slate-300 hover:text-rose-500 transition p-1 shrink-0">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                `;
                 list.appendChild(el);
             });
             lucide.createIcons();
+        }
+
+        function calculateNextDate(dateStr, recurrence) {
+            let d = new Date(dateStr);
+            if (isNaN(d.getTime())) d = new Date();
+            switch (recurrence) {
+                case 'daily': d.setDate(d.getDate() + 1); break;
+                case 'weekly': d.setDate(d.getDate() + 7); break;
+                case 'monthly': d.setMonth(d.getMonth() + 1); break;
+                case 'yearly': d.setFullYear(d.getFullYear() + 1); break;
+                default: return null;
+            }
+            return d.toISOString().split('T')[0];
+        }
+
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.done = !task.done;
+                if (task.done && task.recurrence && task.recurrence !== 'none') {
+                    const nextDate = calculateNextDate(task.date, task.recurrence);
+                    if (nextDate) {
+                        tasks.unshift({ id: Date.now(), title: task.title, date: nextDate, recurrence: task.recurrence, done: false });
+                    }
+                }
+                renderTasks();
+            }
         }
 
         function handleTaskSubmit(e) {
             e.preventDefault();
-            const data = { 
-                id: Date.now(), 
-                title: document.getElementById('task-title').value, 
-                date: document.getElementById('task-date').value, 
-                recurrence: document.getElementById('task-recurrence').value 
-            };
-            tasks.push(data);
-            saveToLocalStorage();
-            closeModal('task-modal'); 
-            renderAll();
+            const title = document.getElementById('task-title').value;
+            const date = document.getElementById('task-date').value;
+            const recurrence = document.getElementById('task-recurrence').value;
+
+            if (title) {
+                tasks.unshift({ id: Date.now(), title: title.trim(), date: date || new Date().toISOString().split('T')[0], recurrence: recurrence || 'none', done: false });
+                closeModal('task-modal');
+                renderTasks();
+            }
         }
 
-        // --- TRANSAZIONI E FINANZE ---
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            renderTasks();
+        }
+
+
+        // ================= FINANZE LOGIC =================
+        function handleTransactionSubmit(e) {
+            e.preventDefault();
+            const type = document.getElementById('tx-type').value;
+            const amount = parseFloat(document.getElementById('tx-amount').value);
+            const desc = document.getElementById('tx-desc').value;
+            const date = document.getElementById('tx-date').value;
+
+            if (amount && desc) {
+                transactions.unshift({ id: Date.now(), desc, amount, type, date });
+                document.getElementById('tx-amount').value = '';
+                document.getElementById('tx-desc').value = '';
+                renderTransactions();
+                renderCompareChart();
+            }
+        }
+
+        function editTransaction(id) {
+            const t = transactions.find(x => x.id === id);
+            if (!t) return;
+            const newDesc = prompt("Modifica descrizione:", t.desc);
+            if (newDesc === null) return;
+            const newAmountStr = prompt("Modifica importo (€):", t.amount);
+            if (newAmountStr === null) return;
+            const newAmount = parseFloat(newAmountStr);
+            if (isNaN(newAmount) || newAmount <= 0) { alert("Importo non valido."); return; }
+            t.desc = newDesc.trim() || t.desc;
+            t.amount = newAmount;
+            renderTransactions();
+            renderCompareChart();
+        }
+
+        function deleteTransaction(id) {
+            if (confirm("Eliminare questa voce?")) {
+                transactions = transactions.filter(t => t.id !== id);
+                renderTransactions();
+                renderCompareChart();
+            }
+        }
+
+        function getFixedExpenseStatus(f) {
+            if (f.monthsTotal === null || f.monthsTotal === undefined) {
+                return { active: true, badgeText: 'Ricorrente', remainingMonths: Infinity };
+            }
+            const start = new Date(f.startDate || Date.now());
+            const now = new Date();
+            const monthsPassed = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+            const remaining = f.monthsTotal - monthsPassed;
+            if (remaining <= 0) {
+                return { active: false, badgeText: 'Terminata', remainingMonths: 0 };
+            }
+            return { active: true, badgeText: `${remaining}/${f.monthsTotal} mesi`, remainingMonths: remaining };
+        }
+
         function renderTransactions() {
             const list = document.getElementById('transactions-list');
             list.innerHTML = '';
-            transactions.forEach(tx => {
+
+            let totalIn = 0;
+            let totalSingleOut = 0;
+
+            transactions.forEach(t => {
+                if (t.type === 'income') totalIn += t.amount;
+                if (t.type === 'expense') totalSingleOut += t.amount;
+
                 const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
-                const isInc = tx.type === 'income';
+                el.className = 'flex items-center justify-between p-2 rounded-xl border border-slate-100 bg-slate-50 text-xs gap-2';
                 el.innerHTML = `
-                    <div><p class="font-semibold">${tx.desc}</p><span class="text-slate-400">${tx.date}</span></div>
-                    <div class="flex items-center space-x-2">
-                        <span class="font-bold ${isInc ? 'text-emerald-600' : 'text-rose-600'}">${isInc ? '+' : '-'} € ${parseFloat(tx.amount).toFixed(2)}</span>
-                        <button onclick="deleteItem('transactions', ${tx.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                    </div>`;
+                    <div class="flex items-center space-x-2 overflow-hidden">
+                        <span class="p-1 rounded-md shrink-0 ${t.type === 'income' ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}">
+                            <i data-lucide="${t.type === 'income' ? 'arrow-down-left' : 'arrow-up-right'}" class="w-3.5 h-3.5"></i>
+                        </span>
+                        <div class="overflow-hidden">
+                            <p class="font-semibold text-slate-800 truncate">${t.desc}</p>
+                            <p class="text-[10px] text-slate-400">${t.date}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-1 sm:space-x-2 shrink-0">
+                        <span class="font-bold ${t.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}">
+                            ${t.type === 'income' ? '+' : '-'}€${t.amount.toFixed(2)}
+                        </span>
+                        <button onclick="editTransaction(${t.id})" class="text-slate-400 hover:text-indigo-600 p-1"><i data-lucide="pencil" class="w-3 h-3"></i></button>
+                        <button onclick="deleteTransaction(${t.id})" class="text-slate-400 hover:text-rose-600 p-1"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+                    </div>
+                `;
                 list.appendChild(el);
             });
+
+            const totalFixedOut = fixedExpenses.filter(f => getFixedExpenseStatus(f).active).reduce((sum, f) => sum + f.amount, 0);
+            const totalExpensesCombined = totalSingleOut + totalFixedOut;
+            const netBalance = totalIn - totalExpensesCombined;
+
+            document.getElementById('stat-total-incomes').innerText = `+ € ${totalIn.toFixed(2)}`;
+            document.getElementById('stat-total-expenses').innerText = `- € ${totalExpensesCombined.toFixed(2)}`;
+            document.getElementById('stat-total-expenses-sub').innerText = `€ ${totalSingleOut.toFixed(2)} singole + € ${totalFixedOut.toFixed(2)} fisse`;
+            document.getElementById('stat-total-balance').innerText = `€ ${netBalance.toFixed(2)}`;
+
             lucide.createIcons();
         }
 
-        function handleTransactionSubmit(e) {
-            e.preventDefault();
-            const tx = {
-                id: Date.now(),
-                type: document.getElementById('tx-type').value,
-                amount: parseFloat(document.getElementById('tx-amount').value),
-                desc: document.getElementById('tx-desc').value,
-                date: document.getElementById('tx-date').value
-            };
-            transactions.push(tx);
-            saveToLocalStorage();
-            e.target.reset();
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('tx-date').value = today;
-            renderAll();
-        }
-
-        // --- SPESE FISSE ---
-        function renderFixedExpenses() {
-            const list = document.getElementById('fixed-expenses-list');
-            list.innerHTML = '';
-            fixedExpenses.forEach(fix => {
-                const el = document.createElement('div');
-                el.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 border text-xs sm:text-sm';
-                el.innerHTML = `
-                    <div><p class="font-semibold">${fix.desc}</p><span class="text-slate-400">Durata: ${fix.duration}</span></div>
-                    <div class="flex items-center space-x-2">
-                        <span class="font-bold text-blue-600">€ ${parseFloat(fix.amount).toFixed(2)}</span>
-                        <button onclick="deleteItem('fixed', ${fix.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                    </div>`;
-                list.appendChild(el);
-            });
-            lucide.createIcons();
+        function toggleCustomDurationInput() {
+            const select = document.getElementById('fix-duration');
+            const customInput = document.getElementById('fix-custom-duration');
+            if (select.value === 'custom') {
+                customInput.classList.remove('hidden');
+                customInput.required = true;
+                customInput.focus();
+            } else {
+                customInput.classList.add('hidden');
+                customInput.required = false;
+            }
         }
 
         function handleFixedExpenseSubmit(e) {
             e.preventDefault();
-            const fix = {
-                id: Date.now(),
-                desc: document.getElementById('fix-desc').value,
-                amount: parseFloat(document.getElementById('fix-amount').value),
-                duration: document.getElementById('fix-duration').value
-            };
-            fixedExpenses.push(fix);
-            saveToLocalStorage();
-            e.target.reset();
-            renderAll();
+            const desc = document.getElementById('fix-desc').value;
+            const amount = parseFloat(document.getElementById('fix-amount').value);
+            const durationVal = document.getElementById('fix-duration').value;
+
+            let monthsTotal = null;
+            if (durationVal === 'custom') {
+                monthsTotal = parseInt(document.getElementById('fix-custom-duration').value) || 1;
+            } else if (durationVal !== 'forever') {
+                monthsTotal = parseInt(durationVal);
+            }
+
+            if (desc && amount) {
+                fixedExpenses.push({ id: Date.now(), desc, amount, monthsTotal, startDate: new Date().toISOString().split('T')[0] });
+                document.getElementById('fix-desc').value = '';
+                document.getElementById('fix-amount').value = '';
+                document.getElementById('fix-duration').value = 'forever';
+                document.getElementById('fix-custom-duration').value = '';
+                toggleCustomDurationInput();
+                renderFixedExpenses();
+                renderTransactions();
+                renderCompareChart();
+            }
         }
 
-        // --- CANCELLAZIONE GENERICA ---
-        function deleteItem(type, id) {
-            if (type === 'inventory') inventory = inventory.filter(i => i.id !== id);
-            if (type === 'shopping') shoppingList = shoppingList.filter(s => s.id !== id);
-            if (type === 'maintenance') maintenance = maintenance.filter(m => m.id !== id);
-            if (type === 'tasks') tasks = tasks.filter(t => t.id !== id);
-            if (type === 'transactions') transactions = transactions.filter(tx => tx.id !== id);
-            if (type === 'fixed') fixedExpenses = fixedExpenses.filter(f => f.id !== id);
-            
-            saveToLocalStorage();
-            renderAll();
+        function renderFixedExpenses() {
+            const list = document.getElementById('fixed-expenses-list');
+            list.innerHTML = '';
+
+            fixedExpenses.forEach(f => {
+                const status = getFixedExpenseStatus(f);
+                const el = document.createElement('div');
+                el.className = `flex items-center justify-between p-2.5 rounded-xl border gap-2 ${status.active ? 'border-slate-100 bg-slate-50' : 'border-slate-200 bg-slate-100 opacity-60'}`;
+                const badgeClass = status.active ? 'bg-blue-50 text-blue-600 border-blue-100' : 'bg-slate-200 text-slate-500 border-slate-300';
+
+                el.innerHTML = `
+                    <div class="overflow-hidden">
+                        <p class="text-xs font-semibold truncate ${status.active ? 'text-slate-800' : 'text-slate-500 line-through'}">${f.desc}</p>
+                        <span class="text-[10px] px-1.5 py-0.5 rounded border font-medium ${badgeClass}">${status.badgeText}</span>
+                    </div>
+                    <div class="flex items-center space-x-2 shrink-0">
+                        <span class="font-bold text-xs ${status.active ? 'text-slate-900' : 'text-slate-400'}">€${f.amount.toFixed(2)}/m</span>
+                        <button onclick="deleteFixedExpense(${f.id})" class="text-slate-300 hover:text-rose-500 transition"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                `;
+                list.appendChild(el);
+            });
+            lucide.createIcons();
         }
 
-        // --- STATISTICHE E GRAFICO ---
-        function updateFinancialStats() {
-            let totalIncome = 0;
-            let totalExpense = 0;
-
-            transactions.forEach(tx => {
-                if (tx.type === 'income') totalIncome += tx.amount;
-                else totalExpense += tx.amount;
-            });
-
-            fixedExpenses.forEach(fix => {
-                totalExpense += fix.amount;
-            });
-
-            const balance = totalIncome - totalExpense;
-
-            document.getElementById('stat-total-balance').innerText = `€ ${balance.toFixed(2)}`;
-            document.getElementById('stat-total-incomes').innerText = `+ € ${totalIncome.toFixed(2)}`;
-            document.getElementById('stat-total-expenses').innerText = `- € ${totalExpense.toFixed(2)}`;
+        function deleteFixedExpense(id) {
+            fixedExpenses = fixedExpenses.filter(f => f.id !== id);
+            renderFixedExpenses();
+            renderTransactions();
+            renderCompareChart();
         }
 
         function renderCompareChart() {
-            updateFinancialStats();
-            let totalIncome = transactions.filter(t => t.type === 'income').reduce((acc, t) => acc + t.amount, 0);
-            let totalExpense = transactions.filter(t => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0);
-            fixedExpenses.forEach(f => totalExpense += f.amount);
+            const ctx = document.getElementById('compareChart');
+            if(!ctx) return;
 
-            const ctx = document.getElementById('compareChart').getContext('2d');
-            if (compareChartInstance) compareChartInstance.destroy();
+            const totalIn = transactions.filter(t => t.type === 'income').reduce((acc, t) => acc + t.amount, 0);
+            const totalSingleOut = transactions.filter(t => t.type === 'expense').reduce((acc, t) => acc + t.amount, 0);
+            const totalFixedOut = fixedExpenses.filter(f => getFixedExpenseStatus(f).active).reduce((acc, f) => acc + f.amount, 0);
+            const totalOut = totalSingleOut + totalFixedOut;
+            const net = totalIn - totalOut;
 
-            compareChartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Entrate', 'Uscite'],
-                    datasets: [{
-                        data: [totalIncome || 0.01, totalExpense || 0.01],
-                        backgroundColor: ['#10b981', '#f43f5e'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom' }
-                    }
+            const verdictBadge = document.getElementById('compare-verdict-badge');
+            if (verdictBadge) {
+                if (net >= 0) {
+                    verdictBadge.innerHTML = `<span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-bold text-[10px] sm:text-xs rounded-full border border-emerald-200">📈 +€ ${net.toFixed(2)}</span>`;
+                } else {
+                    verdictBadge.innerHTML = `<span class="px-2.5 py-1 bg-rose-50 text-rose-700 font-bold text-[10px] sm:text-xs rounded-full border border-rose-200">📉 -€ ${Math.abs(net).toFixed(2)}</span>`;
                 }
+            }
+
+            if (compareChartInstance) {
+                compareChartInstance.data.datasets[0].data = [totalIn, totalOut];
+                compareChartInstance.update();
+            } else {
+                compareChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Entrate', 'Uscite Totali'],
+                        datasets: [{
+                            data: [totalIn, totalOut],
+                            backgroundColor: ['#10b981', '#f43f5e'],
+                            borderWidth: 2,
+                            borderColor: '#ffffff',
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 } } }
+                        }
+                    }
+                });
+            }
+        }
+
+        function handleInvestmentUpdate(e) {
+            e.preventDefault();
+            const val = parseFloat(document.getElementById('inv-value').value);
+            if (val) {
+                investmentHistory.push({ id: Date.now(), date: new Date().toISOString().split('T')[0], value: val });
+                document.getElementById('inv-value').value = '';
+                renderInvestmentsHistory();
+                renderInvestmentsChart();
+            }
+        }
+
+        function deleteInvestmentHistory(id) {
+            if (confirm("Eliminare questa rilevazione?")) {
+                investmentHistory = investmentHistory.filter(inv => inv.id !== id);
+                renderInvestmentsHistory();
+                renderInvestmentsChart();
+            }
+        }
+
+        function renderInvestmentsHistory() {
+            const list = document.getElementById('investments-history-list');
+            list.innerHTML = '';
+
+            [...investmentHistory].reverse().forEach(inv => {
+                const el = document.createElement('div');
+                el.className = 'flex items-center justify-between p-2 rounded-xl border border-slate-100 bg-purple-50/30 text-xs';
+                el.innerHTML = `
+                    <span class="text-slate-500 font-medium">${inv.date}</span>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-bold text-purple-700">€ ${inv.value.toFixed(2)}</span>
+                        <button onclick="deleteInvestmentHistory(${inv.id})" class="text-slate-300 hover:text-rose-500 transition p-1"><i data-lucide="trash-2" class="w-3 h-3"></i></button>
+                    </div>
+                `;
+                list.appendChild(el);
             });
+            lucide.createIcons();
+        }
+
+        function renderInvestmentsChart() {
+            const ctx = document.getElementById('investmentsChart');
+            if(!ctx) return;
+
+            const labels = investmentHistory.map(i => i.date);
+            const dataValues = investmentHistory.map(i => i.value);
+
+            if (chartInstance) {
+                chartInstance.data.labels = labels;
+                chartInstance.data.datasets[0].data = dataValues;
+                chartInstance.update();
+            } else {
+                chartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Portafoglio (€)',
+                            data: dataValues,
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 2.5,
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                            y: {
+                                grid: { color: '#f1f5f9' },
+                                ticks: { font: { size: 10 }, callback: function(v) { return '€ ' + v; } }
+                            }
+                        }
+                    }
+                });
+            }
         }
     </script>
 </body>
