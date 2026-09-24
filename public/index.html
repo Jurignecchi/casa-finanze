@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Casa & Finanze</title>
+    <!-- Favicon Casetta Azzurra -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%230284c7'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons UMD -->
@@ -14,39 +16,23 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
 
-        /* Stili per le animazioni di scorrimento direzionale (Slide Transition) */
+        /* Stili per le animazioni e l'effetto sfocato (Blur Transition) */
         .view-section {
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: transform, opacity;
-            width: 100%;
+            transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
+            will-change: opacity, filter, transform;
         }
 
-        /* Uscita / Entrata verso Sinistra */
-        .slide-out-left {
+        .view-blur-out {
             opacity: 0;
-            transform: translateX(-30px);
+            filter: blur(12px);
+            transform: scale(0.98);
             pointer-events: none;
         }
-        .slide-in-from-left {
-            opacity: 0;
-            transform: translateX(-30px);
-        }
 
-        /* Uscita / Entrata verso Destra */
-        .slide-out-right {
-            opacity: 0;
-            transform: translateX(30px);
-            pointer-events: none;
-        }
-        .slide-in-from-right {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-
-        /* Stato Attivo NORMALE */
-        .slide-active {
+        .view-blur-in {
             opacity: 1;
-            transform: translateX(0);
+            filter: blur(0px);
+            transform: scale(1);
         }
 
         /* Transizione fluida sui pulsanti del selettore */
@@ -92,11 +78,11 @@
     </header>
 
     <!-- Main Container con Contenitore per le Viste -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 overflow-x-hidden">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 overflow-hidden">
 
         <!-- ================= VIEW 0: SCHERMATA INIZIALE / HUB ================= -->
-        <section id="view-hub" class="view-section space-y-6">
-            <div class="text-center max-w-2xl mx-auto space-y-2 sm:space-y-3 px-2 pt-2">
+        <section id="view-hub" class="view-section space-y-6 sm:space-y-8 py-4 sm:py-8">
+            <div class="text-center max-w-2xl mx-auto space-y-2 sm:space-y-3 px-2">
                 <span class="px-3 py-1 bg-indigo-50 text-indigo-600 font-semibold text-xs rounded-full uppercase tracking-wider border border-indigo-100">
                     Pannello Principale
                 </span>
@@ -380,18 +366,24 @@
         </div>
     </div>
 
-    <!-- Modal Scadenze -->
+    <!-- Modal Scadenze (Aggiornato con Selezione Ricorrenza) -->
     <div id="maintenance-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
         <div class="bg-white rounded-2xl max-w-md w-full p-5 space-y-4">
-            <h3 class="font-bold text-slate-900 text-base">Nuova Scadenza</h3>
+            <h3 class="font-bold text-slate-900 text-base">Nuova Scadenza / Manutenzione</h3>
             <form onsubmit="handleMaintenanceSubmit(event)" class="space-y-3">
                 <input id="maint-title" type="text" placeholder="Titolo" required class="w-full bg-slate-50 border rounded-xl px-3 py-2 text-xs">
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     <input id="maint-date" type="date" required class="bg-slate-50 border rounded-xl px-3 py-2 text-xs">
                     <select id="maint-status" class="bg-slate-50 border rounded-xl px-3 py-2 text-xs">
                         <option value="Programmato">Programmato</option>
                         <option value="In scadenza">In Scadenza</option>
                         <option value="Urgente">Urgente</option>
+                    </select>
+                    <select id="maint-recurrence" class="bg-slate-50 border rounded-xl px-3 py-2 text-xs">
+                        <option value="none">Singola</option>
+                        <option value="weekly">Settimanale</option>
+                        <option value="monthly">Mensile</option>
+                        <option value="annual">Annuale</option>
                     </select>
                 </div>
                 <div class="flex justify-end gap-2 pt-2">
@@ -425,7 +417,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT LOGICA CLIENT -->
+    <!-- SCRIPT LOGICA CLIENT CON COLLEGAMENTO API ED EFFETTI SFOCATO / COLORAZIONE -->
     <script>
         let inventory = [];
         let shoppingList = [];
@@ -437,9 +429,6 @@
 
         let chartInstance = null;
         let compareChartInstance = null;
-
-        // Ordine delle schermate per calcolare la direzione dello scorrimento (Slide)
-        const viewOrder = { 'hub': 0, 'casa': 1, 'finanze': 2 };
         let currentActiveView = 'hub';
         let isTransitioning = false;
 
@@ -480,7 +469,7 @@
             // Inizializza visualizzazione e selettori
             updateNavTheme('hub');
             const initialHub = document.getElementById('view-hub');
-            if (initialHub) initialHub.classList.add('slide-active');
+            if (initialHub) initialHub.classList.add('view-blur-in');
 
             loadAllData();
             if (window.lucide) lucide.createIcons();
@@ -521,10 +510,11 @@
             }
         }
 
-        // MOSTRA VISTA CON ANIMAZIONE DI SCORRIMENTO DINAMICO
+        // MOSTRA VISTA CON ANIMAZIONE BLUR E DISSOLVENZA SOTTO
         function showView(targetViewName) {
             if (currentActiveView === targetViewName || isTransitioning) return;
 
+            const views = ['hub', 'casa', 'finanze'];
             const currentEl = document.getElementById(`view-${currentActiveView}`);
             const targetEl = document.getElementById(`view-${targetViewName}`);
 
@@ -532,43 +522,33 @@
 
             isTransitioning = true;
 
-            // Determina la direzione dello scorrimento in base alla posizione dei tab
-            const isMovingRight = viewOrder[targetViewName] > viewOrder[currentActiveView];
-
-            // 1. Aggiorna subito il colore della barra di navigazione
+            // 1. Aggiorna subito il colore del selettore in alto
             updateNavTheme(targetViewName);
 
-            // Classe per la vista in uscita e per quella in entrata
-            const exitClass = isMovingRight ? 'slide-out-left' : 'slide-out-right';
-            const enterStartClass = isMovingRight ? 'slide-in-from-right' : 'slide-in-from-left';
-
-            // 2. Anima la vista corrente verso l'uscita
+            // 2. Sfoca ed effettua la dissolvenza della schermata corrente
             if (currentEl) {
-                currentEl.classList.remove('slide-active', 'slide-in-from-right', 'slide-in-from-left');
-                currentEl.classList.add(exitClass);
+                currentEl.classList.remove('view-blur-in');
+                currentEl.classList.add('view-blur-out');
             }
 
-            // 3. Esegui il cambio di schermata e l'animazione di entrata
+            // 3. Cambia la schermata e applica l'effetto di riapparizione nitida
             setTimeout(() => {
-                const views = ['hub', 'casa', 'finanze'];
                 views.forEach(v => {
                     const el = document.getElementById(`view-${v}`);
                     if (el) {
                         el.classList.add('hidden');
-                        el.classList.remove('slide-out-left', 'slide-out-right', 'slide-in-from-right', 'slide-in-from-left', 'slide-active');
+                        el.classList.remove('view-blur-out', 'view-blur-in');
                     }
                 });
 
-                // Prepara la vista di destinazione
                 targetEl.classList.remove('hidden');
-                targetEl.classList.add(enterStartClass);
+                targetEl.classList.add('view-blur-out');
 
-                // Forza il reflow DOM per far percepire il cambio di posizione iniziale a CSS
+                // Forza il reflow DOM per attivare la transizione CSS
                 void targetEl.offsetWidth;
 
-                // Applica la transizione verso lo stato attivo
-                targetEl.classList.remove(enterStartClass);
-                targetEl.classList.add('slide-active');
+                targetEl.classList.remove('view-blur-out');
+                targetEl.classList.add('view-blur-in');
 
                 currentActiveView = targetViewName;
                 isTransitioning = false;
@@ -579,7 +559,7 @@
                 }
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 200);
+            }, 250);
         }
 
         function renderAll() {
@@ -612,6 +592,7 @@
                         <span class="text-[10px] text-slate-400">${item.category || 'Casa'}</span>
                     </div>
                     
+                    <!-- Selettore ON/OFF Auto-Restock -->
                     <div class="flex items-center gap-1 shrink-0" title="Auto-aggiungi alla spesa se la quantità arriva a 0">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" ${isChecked} onchange="toggleAutoRestock(${item.id})" class="sr-only peer">
@@ -788,10 +769,20 @@
             maintenance.forEach(item => {
                 const el = document.createElement('div');
                 el.className = 'flex items-center justify-between p-2.5 rounded-xl border bg-slate-50 text-xs';
+                
+                const recLabels = {
+                    weekly: 'Settimanale',
+                    monthly: 'Mensile',
+                    annual: 'Annuale'
+                };
+                const recText = item.recurrence && item.recurrence !== 'none' 
+                    ? ` • ${recLabels[item.recurrence] || item.recurrence}` 
+                    : '';
+
                 el.innerHTML = `
                     <div>
                         <p class="font-semibold text-slate-800">${item.title}</p>
-                        <p class="text-[10px] text-slate-400">${item.date}</p>
+                        <p class="text-[10px] text-slate-400">${item.date}${recText}</p>
                     </div>
                     <button onclick="deleteMaintenance(${item.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                 `;
@@ -805,12 +796,13 @@
             const title = document.getElementById('maint-title').value;
             const date = document.getElementById('maint-date').value;
             const status = document.getElementById('maint-status').value;
+            const recurrence = document.getElementById('maint-recurrence').value;
 
             if (title) {
                 const res = await fetch('/api/maintenance', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ title, date, status })
+                    body: JSON.stringify({ title, date, status, recurrence })
                 });
                 maintenance.push(await res.json());
                 closeModal('maintenance-modal');
@@ -1019,10 +1011,14 @@
                 el.className = 'flex items-center justify-between p-2 rounded-xl bg-purple-50/50 text-xs';
                 el.innerHTML = `
                     <span class="text-slate-500">${inv.date}</span>
-                    <span class="font-bold text-purple-700">€ ${inv.value.toFixed(2)}</span>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-bold text-purple-700">€ ${inv.value.toFixed(2)}</span>
+                        <button onclick="deleteInvestment(${inv.id})" class="text-slate-300 hover:text-rose-500 transition-colors" title="Elimina registrazione"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    </div>
                 `;
                 list.appendChild(el);
             });
+            if (window.lucide) lucide.createIcons();
         }
 
         async function handleInvestmentUpdate(e) {
@@ -1037,7 +1033,15 @@
                 investmentHistory.push(await res.json());
                 renderInvestmentsHistory();
                 renderInvestmentsChart();
+                e.target.reset();
             }
+        }
+
+        async function deleteInvestment(id) {
+            await fetch(`/api/investments/${id}`, { method: 'DELETE' });
+            investmentHistory = investmentHistory.filter(inv => inv.id !== id);
+            renderInvestmentsHistory();
+            renderInvestmentsChart();
         }
 
         // GRAFICI
